@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { getLogger } from '../core';
-import { ItemProps } from './ItemProps';
-import { createItem, getItems, newWebSocket, updateItem } from './itemApi';
+import { ListingProps } from './ListingProps';
+import { createItem, getItems, newWebSocket, updateItem } from './ListingApi';
 
-const log = getLogger('ItemProvider');
+const log = getLogger('ListingProvider');
 
-type SaveItemFn = (item: ItemProps) => Promise<any>;
+type SaveItemFn = (item: ListingProps) => Promise<any>;
 
 export interface ItemsState {
-  items?: ItemProps[],
+  listings?: ListingProps[],
   fetching: boolean,
   fetchingError?: Error | null,
   saving: boolean,
@@ -40,13 +40,13 @@ const reducer: (state: ItemsState, action: ActionProps) => ItemsState =
       case FETCH_ITEMS_STARTED:
         return { ...state, fetching: true, fetchingError: null };
       case FETCH_ITEMS_SUCCEEDED:
-        return { ...state, items: payload.items, fetching: false };
+        return { ...state, listings: payload.listings, fetching: false };
       case FETCH_ITEMS_FAILED:
         return { ...state, fetchingError: payload.error, fetching: false };
       case SAVE_ITEM_STARTED:
         return { ...state, savingError: null, saving: true };
       case SAVE_ITEM_SUCCEEDED:
-        const items = [...(state.items || [])];
+        const items = [...(state.listings || [])];
         const item = payload.item;
         const index = items.findIndex(it => it.id === item.id);
         if (index === -1) {
@@ -54,7 +54,7 @@ const reducer: (state: ItemsState, action: ActionProps) => ItemsState =
         } else {
           items[index] = item;
         }
-        return { ...state, items, saving: false };
+        return { ...state, listings: items, saving: false };
       case SAVE_ITEM_FAILED:
         return { ...state, savingError: payload.error, saving: false };
       default:
@@ -62,24 +62,24 @@ const reducer: (state: ItemsState, action: ActionProps) => ItemsState =
     }
   };
 
-export const ItemContext = React.createContext<ItemsState>(initialState);
+export const ListingContext = React.createContext<ItemsState>(initialState);
 
 interface ItemProviderProps {
   children: PropTypes.ReactNodeLike,
 }
 
-export const ItemProvider: React.FC<ItemProviderProps> = ({ children }) => {
+export const ListingProvider: React.FC<ItemProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { items, fetching, fetchingError, saving, savingError } = state;
+  const { listings, fetching, fetchingError, saving, savingError } = state;
   useEffect(getItemsEffect, []);
   useEffect(wsEffect, []);
   const saveItem = useCallback<SaveItemFn>(saveItemCallback, []);
-  const value = { items, fetching, fetchingError, saving, savingError, saveItem };
+  const value = { listings, fetching, fetchingError, saving, savingError, saveItem };
   log('returns');
   return (
-    <ItemContext.Provider value={value}>
+    <ListingContext.Provider value={value}>
       {children}
-    </ItemContext.Provider>
+    </ListingContext.Provider>
   );
 
   function getItemsEffect() {
@@ -93,10 +93,10 @@ export const ItemProvider: React.FC<ItemProviderProps> = ({ children }) => {
       try {
         log('fetchItems started');
         dispatch({ type: FETCH_ITEMS_STARTED });
-        const items = await getItems();
+        const listings = await getItems();
         log('fetchItems succeeded');
         if (!canceled) {
-          dispatch({ type: FETCH_ITEMS_SUCCEEDED, payload: { items } });
+          dispatch({ type: FETCH_ITEMS_SUCCEEDED, payload: { listings } });
         }
       } catch (error) {
         log('fetchItems failed');
@@ -105,7 +105,7 @@ export const ItemProvider: React.FC<ItemProviderProps> = ({ children }) => {
     }
   }
 
-  async function saveItemCallback(item: ItemProps) {
+  async function saveItemCallback(item: ListingProps) {
     try {
       log('saveItem started');
       dispatch({ type: SAVE_ITEM_STARTED });

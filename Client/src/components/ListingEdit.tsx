@@ -11,31 +11,31 @@ import {
   IonToolbar
 } from '@ionic/react';
 import { getLogger } from '../core';
-import { ItemContext } from './ItemProvider';
+import { ListingContext } from './ListingProvider';
 import { RouteComponentProps } from 'react-router';
-import { ItemProps } from './ItemProps';
+import { ListingProps } from './ListingProps';
 
-const log = getLogger('ItemEdit');
+const log = getLogger('ListingEdit');
 
-interface ItemEditProps extends RouteComponentProps<{
+interface ListingEditProps extends RouteComponentProps<{
   id?: string;
 }> {}
 
-const ItemEdit: React.FC<ItemEditProps> = ({ history, match }) => {
-  const { items, saving, savingError, saveItem } = useContext(ItemContext);
+const ListingEdit: React.FC<ListingEditProps> = ({ history, match }) => {
+  const { listings, saving, savingError, saveItem } = useContext(ListingContext);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0);
-  const [item, setItem] = useState<ItemProps>();
+  const [item, setItem] = useState<ListingProps>();
   useEffect(() => {
     log('useEffect');
     const routeId = match.params.id || '';
-    const item = items?.find(it => it.id === routeId);
+    const item = listings?.find(it => it.id === routeId);
     setItem(item);
     if (item) {
       setText(item.text);
     }
-  }, [match.params.id, items]);
+  }, [match.params.id, listings]);
   const handleSave = () => {
     const editedItem = item ? { ...item, text, title, price } : { text, title, price };
     saveItem && saveItem(editedItem).then(() => history.goBack());
@@ -67,4 +67,4 @@ const ItemEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   );
 };
 
-export default ItemEdit;
+export default ListingEdit;

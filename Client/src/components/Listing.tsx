@@ -1,12 +1,12 @@
 import React from 'react';
 import { IonItem, IonLabel } from '@ionic/react';
-import { ItemProps } from './ItemProps';
+import { ListingProps } from './ListingProps';
 
-interface ItemPropsExt extends ItemProps {
+interface ItemPropsExt extends ListingProps {
   onEdit: (id?: string) => void;
 }
 
-const Item: React.FC<ItemPropsExt> = ({ id, text, title, price,onEdit }) => {
+const Listing: React.FC<ItemPropsExt> = ({ id, text, title, price,onEdit }) => {
   return (
     <IonItem onClick={() => onEdit(id)}>
         <IonLabel>{title}</IonLabel>
@@ -16,4 +16,4 @@ const Item: React.FC<ItemPropsExt> = ({ id, text, title, price,onEdit }) => {
   );
 };
 
-export default Item;
+export default Listing;

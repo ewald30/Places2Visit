@@ -170,6 +170,7 @@ for (let i = 0; i < 3; i++) {
   }));
 }
 
+console.log(items);
 let lastUpdated = items[items.length - 1].date;
 let lastId = items[items.length - 1].id;
 const pageSize = 10;

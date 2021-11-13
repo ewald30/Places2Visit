@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getLogger } from '../core';
-import { ItemProps } from './ItemProps';
+import { ListingProps } from './ListingProps';
 
 const log = getLogger('itemApi');
 
@@ -30,22 +30,22 @@ const config = {
   }
 };
 
-export const getItems: () => Promise<ItemProps[]> = () => {
+export const getItems: () => Promise<ListingProps[]> = () => {
   return withLogs(axios.get(itemUrl, config), 'getItems');
 }
 
-export const createItem: (item: ItemProps) => Promise<ItemProps[]> = item => {
+export const createItem: (item: ListingProps) => Promise<ListingProps[]> = item => {
   return withLogs(axios.post(itemUrl, item, config), 'createItem');
 }
 
-export const updateItem: (item: ItemProps) => Promise<ItemProps[]> = item => {
+export const updateItem: (item: ListingProps) => Promise<ListingProps[]> = item => {
   return withLogs(axios.put(`${itemUrl}/${item.id}`, item, config), 'updateItem');
 }
 
 interface MessageData {
   event: string;
   payload: {
-    item: ItemProps;
+    item: ListingProps;
   };
 }
 

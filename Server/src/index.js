@@ -45,6 +45,9 @@ const items = [];
 for (let i = 0; i < 3; i++) {
   items.push(new Item({ id: `${i}`, text: `item ${i}`, date: new Date(Date.now() + i), version: 1, title: "title", price: 0 }));
 }
+
+console.log(items)
+
 let lastUpdated = items[items.length - 1].date;
 let lastId = items[items.length - 1].id;
 const pageSize = 10;

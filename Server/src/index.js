@@ -4,7 +4,7 @@ import http from 'http';
 import Router from 'koa-router';
 import bodyParser from "koa-bodyparser";
 import { timingLogger, exceptionHandler, jwtConfig, initWss, verifyClient } from './utils';
-import { router as noteRouter } from './listing';
+import { router as listingRouter } from './listing';
 import { router as authRouter } from './auth';
 import jwt from 'koa-jwt';
 import cors from '@koa/cors';
@@ -34,7 +34,7 @@ app.use(jwt(jwtConfig));
 // protected
 const protectedApiRouter = new Router({ prefix });
 protectedApiRouter
-  .use('/item', noteRouter.routes());
+  .use('/item', listingRouter.routes());
 app
   .use(protectedApiRouter.routes())
   .use(protectedApiRouter.allowedMethods());

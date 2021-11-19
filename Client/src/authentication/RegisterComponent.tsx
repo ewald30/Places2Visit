@@ -19,12 +19,16 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
     const {isAuthenticated, isAuthenticating, register, authenticationError} = useContext(AuthContext);
     const [state, setState] = useState<RegisterState>({passwordMismatch: false});
     const {username, password, password2, passwordMismatch} = state;
+
     const handleRegister = () => {
         logger("handleRegister...");
 
-        if (password != password2)
+        if (password != password2){
             setState({...state, passwordMismatch: true});
-            //register?.(username, password)
+            return
+        }
+
+        register?.(username, password)
     }
 
     if (isAuthenticated) {
@@ -48,7 +52,11 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
                     <div>The passwords do not match</div>
                 )}
 
-                <IonButton onClick={handleRegister}>Login</IonButton>
+                {authenticationError && (
+                    <div>{authenticationError.message || 'Failed to authenticate'}</div>
+                )}
+
+                <IonButton onClick={handleRegister}>Register</IonButton>
             </IonContent>
         </IonPage>
     )

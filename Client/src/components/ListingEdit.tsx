@@ -11,22 +11,22 @@ import {
   IonToolbar
 } from '@ionic/react';
 import { getLogger } from '../core';
-import { ItemContext } from './ItemProvider';
+import { ListingContext } from './ListingsProvider';
 import { RouteComponentProps } from 'react-router';
-import { ItemProps } from './ItemProps';
+import { ListingsProps } from './ListingsProps';
 
-const log = getLogger('ItemEdit');
+const log = getLogger('ListingEdit');
 
 interface ItemEditProps extends RouteComponentProps<{
   id?: string;
 }> {}
 
-const ItemEdit: React.FC<ItemEditProps> = ({ history, match }) => {
-  const { items, saving, savingError, saveItem } = useContext(ItemContext);
+const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
+  const { items, saving, savingError, saveItem } = useContext(ListingContext);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0);
-  const [item, setItem] = useState<ItemProps>();
+  const [item, setItem] = useState<ListingsProps>();
 
   useEffect(() => {
     log('useEffect');
@@ -69,4 +69,4 @@ const ItemEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   );
 };
 
-export default ItemEdit;
+export default ListingEdit;

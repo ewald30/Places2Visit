@@ -10,7 +10,7 @@ import {
     IonInput,
     IonLoading,
     IonButton,
-    IonButtons
+    IonButtons, IonGrid, IonRow, IonCol
 } from "@ionic/react";
 import {AuthContext} from "./AuthenticationProvider";
 import {Redirect} from "react-router-dom";
@@ -42,7 +42,7 @@ export const Login: React.FC<RouteComponentProps> = ({history}) => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Login</IonTitle>
+                    <IonTitle color={"primary"}>Login</IonTitle>
                     <IonButtons slot="end">
                         <IonButton onClick={() => {
                             history.push('/register')}}>
@@ -51,17 +51,29 @@ export const Login: React.FC<RouteComponentProps> = ({history}) => {
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
-                <IonInput placeholder="Username" value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})}/>
-                <IonInput placeholder="Password" value={password} onIonChange={e => setState({...state, password: e.detail.value || ''})}/>
-                <IonLoading isOpen={isAuthenticating}/>
+            <IonGrid>
+                <IonRow>
+                    <IonCol/>
+                </IonRow>
+                <IonRow>
+                    <IonCol/>
+                </IonRow>
 
-                {authenticationError && (
-                    <div>{authenticationError.message || 'Failed to authenticate'}</div>
-                )}
+                <IonRow>
+                    <IonCol  size={"12"} className="ion-align-items-center">
+                            <IonInput placeholder="Username" value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})}/>
+                            <IonInput type={"password"} placeholder="Password" value={password} onIonChange={e => setState({...state, password: e.detail.value || ''})}/>
+                            <IonLoading isOpen={isAuthenticating}/>
 
-                <IonButton onClick={handleLogin}>Login</IonButton>
-            </IonContent>
+                            {authenticationError && (
+                                <div>{authenticationError.message || 'Failed to authenticate'}</div>
+                            )}
+
+                            <IonButton style={{"width":"100%"}}
+                                onClick={handleLogin}>Login</IonButton>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
         </IonPage>
     );
 }

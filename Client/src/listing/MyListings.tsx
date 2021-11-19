@@ -42,7 +42,7 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>My Listings</IonTitle>
+          <IonTitle color={"primary"}>Home</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={() => {
               logOutFunction();

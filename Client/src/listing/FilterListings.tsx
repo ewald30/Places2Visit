@@ -8,7 +8,7 @@ import {
     IonFabButton,
     IonHeader,
     IonIcon,
-    IonInput, IonList,
+    IonInput, IonItem, IonItemDivider, IonLabel, IonList,
     IonPage,
     IonTitle,
     IonToolbar
@@ -22,8 +22,8 @@ interface FilterListings{
 
 export const FilterListings: React.FC = () => {
     const [state, setState] = useState<FilterListings>({});
-    const [lowerLimit, setLowerLimit] = useState(0);
-    const [upperLimit, setUpperLimit] = useState(0);
+    const [lowerLimit, setLowerLimit] = useState<number>(0);
+    const [upperLimit, setUpperLimit] = useState<number>(0);
     const {items} = state
     const {token} = useContext(AuthContext);
 
@@ -40,13 +40,21 @@ export const FilterListings: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Filter Listings by price</IonTitle>
+                    <IonTitle color={"primary"}>Filter</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
             <IonContent fullscreen>
-                <IonInput value={lowerLimit} type={"number"} placeholder={"Lower limit: "} onIonChange={e => setLowerLimit(parseInt(e.detail.value!))}/>
-                <IonInput value={upperLimit} type={"number"} placeholder={"Upper limit: "} onIonChange={e => setUpperLimit(parseInt(e.detail.value!))}/>
+
+                <IonItem>
+                    <IonLabel>Lower limit: </IonLabel>
+                    <IonInput value={lowerLimit} type={"number"} placeholder={"Enter price"} onIonChange={e => setLowerLimit(parseInt(e.detail.value!))}/>
+                </IonItem>
+
+                <IonItem>
+                    <IonLabel>Upper limit</IonLabel>
+                    <IonInput value={upperLimit} type={"number"} placeholder={"Enter price"} onIonChange={e => setUpperLimit(parseInt(e.detail.value!))}/>
+                </IonItem>
 
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
                     <IonFabButton onClick={() => {
@@ -57,9 +65,14 @@ export const FilterListings: React.FC = () => {
                 </IonFab>
 
                 {items && (
+                    <IonItemDivider color={"light"}>Results: </IonItemDivider>
+                )}
+
+
+                {items && (
                     <IonFab vertical="bottom" horizontal="start" slot="fixed">
                         <IonFabButton color={"light"} onClick={() => {
-                            setState({items: []})
+                            setState({items: undefined})
                         }}>
                             <IonIcon icon={closeSharp} />
                         </IonFabButton>

@@ -53,7 +53,7 @@ export const AllListings: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Browse Listings!</IonTitle>
+                    <IonTitle color={"primary"}>Browse</IonTitle>
                 </IonToolbar>
             </IonHeader>
 

@@ -10,7 +10,7 @@ import {
     IonTitle,
     IonContent,
     IonSearchbar,
-    IonList
+    IonList, IonItemDivider
 } from "@ionic/react";
 import {Listing} from "./Listing";
 
@@ -30,7 +30,7 @@ export const SearchListings: React.FC = () => {
             const response = await searchItems(token, key);
             setState({items: response});
         } else {
-            setState({items: []})
+            setState({items: undefined})
         }
     }
 
@@ -47,7 +47,7 @@ export const SearchListings: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Search Listings</IonTitle>
+                    <IonTitle color={"primary"}>Search</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -57,6 +57,10 @@ export const SearchListings: React.FC = () => {
                     onIonChange={e => handleSearch(e.detail.value||'')}
                 >
                 </IonSearchbar>
+
+                {items && (
+                    <IonItemDivider color={"light"}>Results: </IonItemDivider>
+                )}
 
                 {items && (
                     <IonList>

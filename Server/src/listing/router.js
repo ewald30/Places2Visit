@@ -48,6 +48,7 @@ router.get('/filter/:lowerLimit/:upperLimit', async (ctx) => {
   }
 })
 
+
 router.get('/:id', async (ctx) => {
   const userId = ctx.state.user._id;
   const listing = await listingStore.findOne({ _id: ctx.params.id });

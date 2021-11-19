@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
+  IonButton,
+  IonButtons,
   IonContent,
   IonFab,
   IonFabButton,
@@ -40,7 +42,14 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>My App</IonTitle>
+          <IonTitle>My Listings</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={() => {
+              logOutFunction();
+              history.push('/login')}}>
+              Log Out
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -59,11 +68,6 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
             <IonIcon icon={add} />
           </IonFabButton>
 
-          <IonFabButton onClick={() => {
-            logOutFunction();
-            history.push('/login')}}>
-            <IonIcon icon={logOut} />
-          </IonFabButton>
         </IonFab>
       </IonContent>
     </IonPage>

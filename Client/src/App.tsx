@@ -2,9 +2,9 @@ import React, {useContext, useEffect} from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ItemEdit, ItemList } from './components';
+import { ItemEdit, ItemList } from './listing';
 
-/* Core CSS required for Ionic components to work properly */
+/* Core CSS required for Ionic listing to work properly */
 import '@ionic/react/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
@@ -22,19 +22,22 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { ListingsProvider } from './components/ListingsProvider';
-import {useNetwork} from "./components/useNetwork";
+import { ListingsProvider } from './listing/ListingsProvider';
+import {useNetwork} from "./listing/useNetwork";
 import {AuthContext, AuthProvider, AuthState} from "./authentication/AuthenticationProvider";
 import {Login} from "./authentication/LoginComponent";
 import {PrivateRoute} from "./authentication/PrivateRoute";
 import {Register} from "./authentication/RegisterComponent";
-import {ellipse, search, cashOutline, personAdd, person, filter} from "ionicons/icons";
+import {ellipse, search, cashOutline, personAdd, person, filter, basket, home} from "ionicons/icons";
 import {login} from "./authentication/api";
-import {AllListings} from "./components/AllListings";
-import {SearchListings} from "./components/SearchListings";
-import {FilterListings} from "./components/FilterListings";
+import {AllListings} from "./listing/AllListings";
+import {SearchListings} from "./listing/SearchListings";
+import {FilterListings} from "./listing/FilterListings";
 
 const App: React.FC = () => {
+    const {networkStatus} = useNetwork()
+    console.log("NETWORK STATUS: ", networkStatus)
+
     return (<IonApp>
 
         <IonReactRouter>
@@ -58,23 +61,23 @@ const App: React.FC = () => {
                 </IonRouterOutlet>
                 <IonTabBar slot={"bottom"}>
                     <IonTabButton tab={"tab1"} href={"/my_items"}>
-                        <IonIcon icon={ellipse} />
-                        <IonLabel>My Listings</IonLabel>
-                    </IonTabButton>
-
-                    <IonTabButton tab={"tab2"} href={"/all_items"}>
-                        <IonIcon icon={cashOutline}/>
-                        <IonLabel>Market</IonLabel>
+                        <IonIcon icon={home} />
+                        <IonLabel>Home</IonLabel>
                     </IonTabButton>
 
                     <IonTabButton tab={"tab3"} href={"/search_items"}>
                         <IonIcon icon={search}/>
-                        <IonLabel></IonLabel>
+                        <IonLabel>Search</IonLabel>
                     </IonTabButton>
 
                     <IonTabButton tab={"tab4"} href={"/filter_items"}>
                         <IonIcon icon={filter}/>
                         <IonLabel>Filter</IonLabel>
+                    </IonTabButton>
+
+                    <IonTabButton tab={"tab2"} href={"/all_items"}>
+                        <IonIcon icon={basket}/>
+                        <IonLabel>Market</IonLabel>
                     </IonTabButton>
 
                     {/*<IonTabButton tab={"tab5"} href={"/login"}>*/}

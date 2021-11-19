@@ -13,7 +13,7 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import {checkboxOutline} from "ionicons/icons";
+import {checkboxOutline, closeSharp} from "ionicons/icons";
 import {Listing} from "./Listing";
 
 interface FilterListings{
@@ -55,6 +55,17 @@ export const FilterListings: React.FC = () => {
                         <IonIcon icon={checkboxOutline} />
                     </IonFabButton>
                 </IonFab>
+
+                {items && (
+                    <IonFab vertical="bottom" horizontal="start" slot="fixed">
+                        <IonFabButton color={"light"} onClick={() => {
+                            setState({items: []})
+                        }}>
+                            <IonIcon icon={closeSharp} />
+                        </IonFabButton>
+                    </IonFab>
+                )}
+
                 {items && (
                     <IonList>
                         {items.map(({ _id, text, title, price}) =>

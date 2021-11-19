@@ -1,7 +1,17 @@
 import {getLogger} from "../core";
 import React, {useContext, useState} from "react";
 import {RouteComponentProps} from "react-router";
-import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonLoading, IonButton} from "@ionic/react";
+import {
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonInput,
+    IonLoading,
+    IonButton,
+    IonButtons
+} from "@ionic/react";
 import {AuthContext} from "./AuthenticationProvider";
 import {Redirect} from "react-router-dom";
 import { Plugins } from '@capacitor/core';
@@ -33,6 +43,12 @@ export const Login: React.FC<RouteComponentProps> = ({history}) => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Login</IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton onClick={() => {
+                            history.push('/register')}}>
+                            Register
+                        </IonButton>
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>

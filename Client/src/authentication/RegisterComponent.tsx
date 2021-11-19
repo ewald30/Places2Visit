@@ -3,7 +3,7 @@ import React, {useContext, useState} from "react";
 import {RouteComponentProps} from "react-router";
 import {AuthContext} from "./AuthenticationProvider";
 import {Redirect} from "react-router-dom";
-import {IonButton, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import {IonButton, IonButtons, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
 
 
 const logger = getLogger('Login component')
@@ -40,6 +40,12 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Register</IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton onClick={() => {
+                            history.push('/login')}}>
+                            Log in
+                        </IonButton>
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
 

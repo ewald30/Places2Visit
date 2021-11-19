@@ -4,7 +4,7 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonInput, IonItemDivider,
+  IonInput, IonItem, IonItemDivider, IonLabel,
   IonLoading,
   IonPage,
   IonTitle,
@@ -58,9 +58,18 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
       </IonHeader>
 
       <IonContent>
-        <IonInput value={title} placeholder={"Title: "} onIonChange={e => setTitle(e.detail.value || '')} />
-        <IonInput value={text} placeholder={"Description: "} onIonChange={e => setText(e.detail.value || '')} />
-        <IonInput type="number" value={price} placeholder={"Price: "} onIonChange={e => {setPrice(parseInt(e.detail.value!))}} />
+        <IonItem>
+          <IonLabel>Title: </IonLabel>
+          <IonInput value={title} placeholder={"Title: "} onIonChange={e => setTitle(e.detail.value || '')} />
+        </IonItem>
+        <IonItem>
+          <IonLabel>Description: </IonLabel>
+          <IonInput value={text} placeholder={"Description: "} onIonChange={e => setText(e.detail.value || '')} />
+        </IonItem>
+        <IonItem>
+          <IonLabel>Price: </IonLabel>
+          <IonInput type="number" value={price} placeholder={"Price: "} onIonChange={e => {setPrice(parseInt(e.detail.value!))}} />
+        </IonItem>
         <IonLoading isOpen={saving} />
         {savingError && (<div>{savingError.message || 'Failed to save item'}</div>)}
       </IonContent>

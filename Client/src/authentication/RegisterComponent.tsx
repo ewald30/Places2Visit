@@ -3,7 +3,17 @@ import React, {useContext, useState} from "react";
 import {RouteComponentProps} from "react-router";
 import {AuthContext} from "./AuthenticationProvider";
 import {Redirect} from "react-router-dom";
-import {IonButton, IonButtons, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import {
+    IonButton,
+    IonButtons, IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonInput,
+    IonPage, IonRow,
+    IonTitle,
+    IonToolbar
+} from "@ionic/react";
 
 
 const logger = getLogger('Login component')
@@ -39,7 +49,7 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Register</IonTitle>
+                    <IonTitle color={"primary"}>Register</IonTitle>
                     <IonButtons slot="end">
                         <IonButton onClick={() => {
                             history.push('/login')}}>
@@ -49,21 +59,34 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent>
-                <IonInput placeholder={"Username"} value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})} />
-                <IonInput placeholder={"Password"} value={password} onIonChange={e => setState({...state, password: e.detail.value || ''})} />
-                <IonInput placeholder={"Confirm Password"} value={password2} onIonChange={e => setState({...state, password2: e.detail.value || ''})} />
+            <IonGrid>
+                <IonRow>
+                    <IonCol/>
+                </IonRow>
+                <IonRow>
+                    <IonCol/>
+                </IonRow>
 
-                {passwordMismatch && (
-                    <div>The passwords do not match</div>
-                )}
+                <IonRow>
+                    <IonCol
+                        size={"12"} className="ion-align-items-center">
+                        <IonInput placeholder={"Username"} value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})} />
+                        <IonInput type={"password"} placeholder={"Password"} value={password} onIonChange={e => setState({...state, password: e.detail.value || ''})} />
+                        <IonInput type={"password"} placeholder={"Confirm Password"} value={password2} onIonChange={e => setState({...state, password2: e.detail.value || ''})} />
 
-                {authenticationError && (
-                    <div>{authenticationError.message || 'Failed to authenticate'}</div>
-                )}
+                        {passwordMismatch && (
+                            <div>The passwords do not match</div>
+                        )}
 
-                <IonButton onClick={handleRegister}>Register</IonButton>
-            </IonContent>
+                        {authenticationError && (
+                            <div>{authenticationError.message || 'Failed to authenticate'}</div>
+                        )}
+
+                        <IonButton style={{"width":"100%"}}
+                            onClick={handleRegister}>Register</IonButton>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
         </IonPage>
     )
 }

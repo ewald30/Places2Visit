@@ -11,6 +11,43 @@ router.get('/', async (ctx) => {
   response.status = 200; // ok
 });
 
+router.get('/offset/:offset/:nbItems', async (ctx) =>{
+  const offset = ctx.params.offset;
+  const nbItems = ctx.params.nbItems;
+  const list = await listingStore.find({});
+  const response = ctx.response;
+  response.status = 200;
+  response.body   = list.slice(offset, Number(offset)+Number(nbItems))
+})
+
+router.get('/search/:key', async (ctx) => {
+  const key  = ctx.params.key;
+  const list = await listingStore.find({});
+  const result = list.filter(item => item.title.toLowerCase().includes(key.toLowerCase()))
+
+  if (result.length){
+    ctx.response.status = 200;
+    ctx.response.body = result;
+  } else {
+    ctx.response.status = 404;
+  }
+})
+
+router.get('/filter/:lowerLimit/:upperLimit', async (ctx) => {
+  const lowerLimit = ctx.params.lowerLimit;
+  const upperLimit = ctx.params.upperLimit;
+  const list = await listingStore.find({});
+  const tempResult = list.filter(item => item.price > Number(lowerLimit))
+  const result = tempResult.filter(item => item.price < Number(upperLimit))
+
+  if (result.length){
+    ctx.response.status = 200;
+    ctx.response.body = result;
+  } else {
+    ctx.response.status = 404;
+  }
+})
+
 router.get('/:id', async (ctx) => {
   const userId = ctx.state.user._id;
   const listing = await listingStore.findOne({ _id: ctx.params.id });

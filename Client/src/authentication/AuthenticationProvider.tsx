@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     useEffect(authenticationEffect, [pendingAuthentication]);
     useEffect(registrationEffect, [pendingRegistration]);
 
-    const childrenProps = { isAuthenticated, login, logout, isAuthenticating, authenticationError, token };
+    const childrenProps = { isAuthenticated, login, register, logout, isAuthenticating, authenticationError, token };
 
     return (
         <AuthContext.Provider value={childrenProps}>
@@ -144,6 +144,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
 
     function registrationEffect() {
+        console.log("asdasdads")
         let canceled = false;
         authenticate();
         return () => {
@@ -151,7 +152,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
 
         async function authenticate() {
-            if (!pendingAuthentication) {
+            if (!pendingRegistration) {
                 logger('!pending registration')
                 return;
             }

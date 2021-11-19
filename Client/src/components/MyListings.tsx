@@ -12,17 +12,17 @@ import {
   IonToolbar
 } from '@ionic/react';
 import {add, logOut} from 'ionicons/icons';
-import Item from './Item';
+import MyListing from './MyListing';
 import { getLogger } from '../core';
-import { ItemContext } from './ItemProvider';
+import { ListingContext } from './ListingsProvider';
 import {useNetwork} from "./useNetwork";
 import {Plugins} from "@capacitor/core";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 
-const log = getLogger('ItemList');
+const log = getLogger('MyListings');
 
-const ItemList: React.FC<RouteComponentProps> = ({ history }) => {
-  const { items, fetching, fetchingError } = useContext(ItemContext);
+const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
+  const { items, fetching, fetchingError } = useContext(ListingContext);
   const {logout} = useContext(AuthContext);
   const {networkStatus} = useNetwork();
 
@@ -48,7 +48,7 @@ const ItemList: React.FC<RouteComponentProps> = ({ history }) => {
         {items && (
           <IonList>
             {items.map(({ _id, text, title, price}) =>
-              <Item key={_id} _id={_id} text={text} title={title} price={price} onEdit={id => history.push(`/item/${id}`)} />)}
+              <MyListing key={_id} _id={_id} text={text} title={title} price={price} onEdit={id => history.push(`/item/${id}`)} />)}
           </IonList>
         )}
         {fetchingError && (
@@ -70,4 +70,4 @@ const ItemList: React.FC<RouteComponentProps> = ({ history }) => {
   );
 };
 
-export default ItemList;
+export default MyListings;

@@ -13,7 +13,7 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import {add, logOut} from 'ionicons/icons';
+import {add, alert, globe, logOut} from 'ionicons/icons';
 import MyListing from './MyListing';
 import { getLogger } from '../core';
 import { ListingContext } from './ListingsProvider';
@@ -42,13 +42,21 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle color={"primary"}>Home</IonTitle>
+          <div>
+            <IonTitle color={"primary"}>Home</IonTitle>
+          </div>
           <IonButtons slot="end">
             <IonButton onClick={() => {
               logOutFunction();
               history.push('/login')}}>
               Log Out
             </IonButton>
+            {!networkStatus.connected && (
+                <IonIcon icon={alert}/>
+            )}
+            {networkStatus.connected && (
+                <IonIcon icon={globe}/>
+            )}
           </IonButtons>
         </IonToolbar>
       </IonHeader>

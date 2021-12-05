@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
   IonButton,
   IonButtons,
-  IonContent,
-  IonHeader,
+  IonContent, IonFab, IonFabButton,
+  IonHeader, IonIcon,
   IonInput, IonItem, IonItemDivider, IonLabel,
   IonLoading,
   IonPage,
@@ -14,6 +14,8 @@ import { getLogger } from '../core';
 import { ListingContext } from './ListingsProvider';
 import { RouteComponentProps } from 'react-router';
 import { ListingsProps } from './ListingsProps';
+import {camera} from "ionicons/icons";
+import {usePhotoGallery} from "../photos/usePhotoGallery";
 
 const log = getLogger('ListingEdit');
 
@@ -22,6 +24,7 @@ interface ItemEditProps extends RouteComponentProps<{
 }> {}
 
 const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
+  const {photos, takePhoto, deletePhoto} = usePhotoGallery();
   const { items, saving, savingError, saveItem } = useContext(ListingContext);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
@@ -70,6 +73,13 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
           <IonLabel>Price: </IonLabel>
           <IonInput type="number" value={price} placeholder={"Price: "} onIonChange={e => {setPrice(parseInt(e.detail.value!))}} />
         </IonItem>
+
+        <IonFab vertical={"bottom"} horizontal={"center"} slot={"fixed"}>
+            <IonFabButton onClick={() => takePhoto()}>
+                <IonIcon icon={camera}/>
+            </IonFabButton>
+        </IonFab>
+
         <IonLoading isOpen={saving} />
         {savingError && (<div>{savingError.message || 'Failed to save item'}</div>)}
       </IonContent>

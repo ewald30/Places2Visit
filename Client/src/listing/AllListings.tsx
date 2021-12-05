@@ -9,10 +9,12 @@ import {
     IonTitle,
     IonContent,
     IonList,
-    IonInfiniteScroll, IonInfiniteScrollContent
+    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon
 } from "@ionic/react";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 import {Listing} from "./Listing";
+import {useNetwork} from "./useNetwork";
+import {alert} from "ionicons/icons";
 
 const ELEMENTS_TO_SHOW = 4;
 
@@ -28,6 +30,7 @@ export const AllListings: React.FC = () => {
     const {currentOffset, items} = state
     const {token} = useContext(AuthContext);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
+    const {networkStatus} = useNetwork();
 
     async function fetchData(offset: number, howMany: number) {
         const response = await getItemsOffset(token, offset, howMany)

@@ -28,7 +28,7 @@ router.post('/login', async (ctx) => {
   const user = await userStore.findOne({ username: credentials.username });
   if (user && credentials.password === user.password) {
     response.body = { token: createToken(user) };
-    response.status = 201; // created
+    response.status = 200; // created
   } else {
     response.body = { issue: [{ error: 'Invalid credentials' }] };
     response.status = 400; // bad request

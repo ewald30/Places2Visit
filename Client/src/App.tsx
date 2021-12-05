@@ -34,6 +34,7 @@ import {AllListings} from "./listing/AllListings";
 import {SearchListings} from "./listing/SearchListings";
 import {FilterListings} from "./listing/FilterListings";
 
+
 const App: React.FC = () => {
     const {networkStatus} = useNetwork()
     console.log("NETWORK STATUS: ", networkStatus)

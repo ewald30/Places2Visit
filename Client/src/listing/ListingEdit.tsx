@@ -3,7 +3,7 @@ import {
   IonButton,
   IonButtons,
   IonContent, IonFab, IonFabButton,
-  IonHeader, IonIcon,
+  IonHeader, IonIcon, IonImg,
   IonInput, IonItem, IonItemDivider, IonLabel,
   IonLoading,
   IonPage,
@@ -15,7 +15,7 @@ import { ListingContext } from './ListingsProvider';
 import { RouteComponentProps } from 'react-router';
 import { ListingsProps } from './ListingsProps';
 import {camera} from "ionicons/icons";
-import {usePhotoGallery} from "../photos/usePhotoGallery";
+import {Photo, usePhotoGallery} from "../photos/usePhotoGallery";
 
 const log = getLogger('ListingEdit');
 
@@ -30,6 +30,7 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0);
   const [item, setItem] = useState<ListingsProps>();
+  const [photo, setPhoto] = useState<Photo>();
 
   useEffect(() => {
     log('useEffect');
@@ -38,6 +39,8 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
     setItem(item);
     if (item) {
       setText(item.text);
+      setTitle(item.title);
+      setPrice(item.price);
     }
   }, [match.params.id, items]);
 
@@ -45,6 +48,10 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
     const editedItem = item ? { ...item, text, title, price } : { text, title, price };
     saveItem && saveItem(editedItem).then(() => history.goBack());
   };
+
+  const handleTakePhoto = () => {
+    takePhoto()
+  }
 
   log('render');
   return (
@@ -75,7 +82,7 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
         </IonItem>
 
         <IonFab vertical={"bottom"} horizontal={"center"} slot={"fixed"}>
-            <IonFabButton onClick={() => takePhoto()}>
+            <IonFabButton onClick={handleTakePhoto}>
                 <IonIcon icon={camera}/>
             </IonFabButton>
         </IonFab>

@@ -26,6 +26,10 @@ export function usePhotoGallery(){
         const newPhotos = [savedFileImage, ...photos];
         setPhotos(newPhotos);
         set(PHOTO_STORAGE, JSON.stringify(newPhotos));
+        return {
+            filePath: savedFileImage.filePath,
+            webviewPath: savedFileImage.webviewPath
+        }
     }
 
     const {deleteFile, readFile, writeFile} = useFilesystem();

@@ -23,28 +23,26 @@ export function usePhotoGallery(){
         });
         const fileName = new Date().getTime() + '.jpeg';
         const savedFileImage = await savePicture(cameraPhoto, fileName);
-        const newPhotos = [savedFileImage, ...photos];
+        const newPhotos = [savedFileImage.photoObjectData, ...photos];
         setPhotos(newPhotos);
         set(PHOTO_STORAGE, JSON.stringify(newPhotos));
-        return {
-            filePath: savedFileImage.filePath,
-            webviewPath: savedFileImage.webviewPath
-        }
+        return savedFileImage.base64Data;
     }
 
     const {deleteFile, readFile, writeFile} = useFilesystem();
-    const savePicture = async (photo: CameraPhoto, fileName: string): Promise<Photo> => {
+    const savePicture = async (photo: CameraPhoto, fileName: string): Promise<{ photoObjectData: Photo, base64Data: string }> => {
         const base64Data = await base64FromPath(photo.webPath!);
         await writeFile({
             path: fileName,
-            data: base64Data,
+            data: `data:image/jpeg;base64,${base64Data}`,
             directory: FilesystemDirectory.Data
         })
 
-        return {
+        const photoObjectData =  {
           filePath: fileName,
           webviewPath: photo.webPath
         };
+         return {photoObjectData, base64Data};
     };
 
     const {get, set} = useStorage();

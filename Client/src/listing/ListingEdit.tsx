@@ -30,7 +30,7 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0);
   const [item, setItem] = useState<ListingsProps>();
-  const [photo, setPhoto] = useState<Photo>();
+  const [photoBase64Data, setPhoto] = useState('');
 
   useEffect(() => {
     log('useEffect');
@@ -41,16 +41,19 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
       setText(item.text);
       setTitle(item.title);
       setPrice(item.price);
+      setPhoto(item.photoBase64Data);
     }
   }, [match.params.id, items]);
 
   const handleSave = () => {
-    const editedItem = item ? { ...item, text, title, price } : { text, title, price };
+    const editedItem = item ? { ...item, text, title, price, photoBase64Data } : { text, title, price, photoBase64Data };
     saveItem && saveItem(editedItem).then(() => history.goBack());
   };
 
-  const handleTakePhoto = () => {
-    takePhoto()
+  const handleTakePhoto = async () => {
+    const takenPhoto = await takePhoto()
+    debugger;
+    setPhoto(takenPhoto);
   }
 
   log('render');
@@ -80,6 +83,11 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
           <IonLabel>Price: </IonLabel>
           <IonInput type="number" value={price} placeholder={"Price: "} onIonChange={e => {setPrice(parseInt(e.detail.value!))}} />
         </IonItem>
+
+          {photoBase64Data &&
+          <IonItem>
+              <IonImg src={photoBase64Data}/>
+          </IonItem>}
 
         <IonFab vertical={"bottom"} horizontal={"center"} slot={"fixed"}>
             <IonFabButton onClick={handleTakePhoto}>

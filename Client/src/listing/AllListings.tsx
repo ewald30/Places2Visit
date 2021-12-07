@@ -63,8 +63,8 @@ export const AllListings: React.FC = () => {
             <IonContent fullscreen>
                 {items && (
                     <IonList>
-                        {items.map(({ _id, text, title, price}) =>
-                            <Listing key={_id} _id={_id} text={text} title={title} price={price}/>)}
+                        {items.map(({ _id, text, title, price, photoBase64Data}) =>
+                            <Listing key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data}/>)}
                     </IonList>
                 )}
 

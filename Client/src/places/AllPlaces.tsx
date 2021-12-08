@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
-import {ListingsProps} from "./ListingsProps";
-import {getItemsOffset} from "./ListingsApi";
+import {PlaceProps} from "./PlaceProps";
+import {getItemsOffset} from "./PlacesApi";
 import {
     IonHeader,
     IonPage,
@@ -12,25 +12,31 @@ import {
     IonInfiniteScroll, IonInfiniteScrollContent, IonIcon
 } from "@ionic/react";
 import {AuthContext} from "../authentication/AuthenticationProvider";
-import {Listing} from "./Listing";
+import {Place} from "./Place";
 import {useNetwork} from "./useNetwork";
 import {alert} from "ionicons/icons";
+import {PlaceDetailsModal} from "./PlaceDetailsModal";
 
 const ELEMENTS_TO_SHOW = 4;
 
-interface ListingMarketState{
-    items?: ListingsProps[],
+interface PlaceMarketState{
+    items?: PlaceProps[],
     currentOffset: number
 }
-const initialState : ListingMarketState = {
+const initialState : PlaceMarketState = {
     currentOffset: 0
 }
-export const AllListings: React.FC = () => {
+export const AllPlaces: React.FC = () => {
     const [state, setState] = useState(initialState);
+    const [selectedPlace, setSelectedPlace] = useState<PlaceProps>();
+    const [openModal, setOpenModal] = useState(false);
     const {currentOffset, items} = state
     const {token} = useContext(AuthContext);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
-    const {networkStatus} = useNetwork();
+
+    const closeModal = () => {
+        setOpenModal(false);
+    }
 
     async function fetchData(offset: number, howMany: number) {
         const response = await getItemsOffset(token, offset, howMany)
@@ -56,15 +62,17 @@ export const AllListings: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle color={"primary"}>Browse</IonTitle>
+                    <IonTitle color={"primary"}>Explore locations</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
             <IonContent fullscreen>
                 {items && (
                     <IonList>
-                        {items.map(({ _id, text, title, price}) =>
-                            <Listing key={_id} _id={_id} text={text} title={title} price={price}/>)}
+                        {items.map((item) =>
+                            <div onClick={() => {setSelectedPlace(item); setOpenModal(true); console.log("asdasd")}}>
+                                <Place key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            </div>)}
                     </IonList>
                 )}
 
@@ -73,6 +81,8 @@ export const AllListings: React.FC = () => {
                         loadingText="Loading more good doggos...">
                     </IonInfiniteScrollContent>
                 </IonInfiniteScroll>
+
+                <PlaceDetailsModal handleCloseModal={closeModal} isVisible={openModal} place={selectedPlace}/>
 
             </IonContent>
 

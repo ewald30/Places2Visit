@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
-import {ListingsProps} from "./ListingsProps";
+import {PlaceProps} from "./PlaceProps";
 import {AuthContext} from "../authentication/AuthenticationProvider";
-import {searchItems} from "./ListingsApi";
+import {searchItems} from "./PlacesApi";
 import {
     IonHeader,
     IonPage,
@@ -12,18 +12,25 @@ import {
     IonSearchbar,
     IonList, IonItemDivider
 } from "@ionic/react";
-import {Listing} from "./Listing";
+import {Place} from "./Place";
+import {PlaceDetailsModal} from "./PlaceDetailsModal";
 
-interface SearchListingsState{
-    items?: ListingsProps[],
+interface SearchPlacesState{
+    items?: PlaceProps[],
 }
 
 
-export const SearchListings: React.FC = () => {
-    const [state, setState] = useState<SearchListingsState>({});
+export const SearchPlace: React.FC = () => {
+    const [state, setState] = useState<SearchPlacesState>({});
     const [searchKey, setKey] = useState('');
+    const [selectedPlace, setSelectedPlace] = useState<PlaceProps>();
+    const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token} = useContext(AuthContext);
+
+    const closeModal = () => {
+        setOpenModal(false);
+    }
 
     async function fetchData(key: string){
         if (key){
@@ -64,10 +71,15 @@ export const SearchListings: React.FC = () => {
 
                 {items && (
                     <IonList>
-                        {items.map(({ _id, text, title, price}) =>
-                            <Listing key={_id} _id={_id} text={text} title={title} price={price}/>)}
+                        {items.map((item) =>
+                            <div onClick={() => {setSelectedPlace(item); setOpenModal(true); console.log("asdasd")}}>
+                                <Place key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            </div>)}
                     </IonList>
                 )}
+
+                <PlaceDetailsModal handleCloseModal={closeModal} isVisible={openModal} place={selectedPlace}/>
+
             </IonContent>
 
         </IonPage>

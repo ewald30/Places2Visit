@@ -32,4 +32,4 @@ export class ListingStore {
   }
 }
 
-export default new ListingStore({ filename: './storage/listings.json', autoload: true });
+export default new ListingStore({ filename: './storage/places.json', autoload: true });

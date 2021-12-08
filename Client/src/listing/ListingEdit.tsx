@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
+  createAnimation,
+  IonActionSheet,
   IonButton,
   IonButtons,
   IonContent, IonFab, IonFabButton,
@@ -14,7 +16,7 @@ import { getLogger } from '../core';
 import { ListingContext } from './ListingsProvider';
 import { RouteComponentProps } from 'react-router';
 import { ListingsProps } from './ListingsProps';
-import {camera} from "ionicons/icons";
+import {camera, trash, closeCircle} from "ionicons/icons";
 import {Photo, usePhotoGallery} from "../photos/usePhotoGallery";
 
 const log = getLogger('ListingEdit');
@@ -31,6 +33,7 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   const [price, setPrice] = useState(0);
   const [item, setItem] = useState<ListingsProps>();
   const [photoBase64Data, setPhoto] = useState('');
+  const [photoToDelete, setPhotoToDelete] = useState('');
 
   useEffect(() => {
     log('useEffect');
@@ -45,9 +48,12 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
     }
   }, [match.params.id, items]);
 
+  useEffect(saveButtonAnimation, []);
+  useEffect(addPhotoButtonAnimation, []);
+
   const handleSave = () => {
     const editedItem = item ? { ...item, text, title, price, photoBase64Data } : { text, title, price, photoBase64Data };
-    saveItem && saveItem(editedItem).then(() => history.goBack());
+    saveItem && saveItem(editedItem).then(() => history.push('/my_items'));
   };
 
   const handleTakePhoto = async () => {
@@ -56,14 +62,47 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
     setPhoto(takenPhoto);
   }
 
+  function saveButtonAnimation() {
+    const element = document.querySelector('.save-btn');
+    if (element){
+      const animation = createAnimation()
+          .addElement(element)
+          .duration(1000)
+          .iterations(Infinity)
+          .keyframes([
+            { offset: 0, opacity: '.5'},
+            { offset: .5, opacity: '1'},
+            { offset: 1, opacity: '.5'},
+          ]);
+      animation.play();
+    }
+  }
+
+  function addPhotoButtonAnimation() {
+    const element = document.querySelector('.add-photo-btn');
+    if (element){
+      const animation = createAnimation()
+          .addElement(element)
+          .duration(600)
+          .iterations(1)
+          .easing('cubic-bezier(0.42, 0, .3, 1)')
+          .keyframes([
+            {offset: 0, transform: 'translate3d(0, 60px, 0)'},
+            {offset: 1, transform: 'translate3d(0, 0, 0)'}
+          ])
+      animation.play();
+    }
+  }
+
   log('render');
+  // @ts-ignore
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Edit</IonTitle>
+          <IonTitle color={"primary"}>Edit</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleSave}>
+            <IonButton onClick={handleSave} className={'save-btn'}>
               Save
             </IonButton>
           </IonButtons>
@@ -86,14 +125,35 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
 
           {photoBase64Data &&
           <IonItem>
-              <IonImg src={photoBase64Data}/>
+              <IonImg src={photoBase64Data} onClick={() => {setPhotoToDelete(photoBase64Data)}}/>
           </IonItem>}
 
-        <IonFab vertical={"bottom"} horizontal={"center"} slot={"fixed"}>
+        <IonFab vertical={"bottom"} horizontal={"center"} slot={"fixed"} className={'add-photo-btn'}>
             <IonFabButton onClick={handleTakePhoto}>
                 <IonIcon icon={camera}/>
             </IonFabButton>
         </IonFab>
+
+        <IonActionSheet
+          isOpen={photoToDelete !== ''}
+          buttons={[{
+          text: 'Delete',
+          role: 'destructive',
+          icon: trash,
+          handler: () => {
+            if (photoToDelete) {
+              setPhoto('');
+              setPhotoToDelete('');
+            }
+          }
+        }, {
+          text: 'Cancel',
+          icon: closeCircle,
+          role: 'cancel'
+        }]}
+          onDidDismiss={() => setPhotoToDelete('')}>
+
+        </IonActionSheet>
 
         <IonLoading isOpen={saving} />
         {savingError && (<div>{savingError.message || 'Failed to save item'}</div>)}

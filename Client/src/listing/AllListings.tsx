@@ -15,6 +15,7 @@ import {AuthContext} from "../authentication/AuthenticationProvider";
 import {Listing} from "./Listing";
 import {useNetwork} from "./useNetwork";
 import {alert} from "ionicons/icons";
+import {ViewListingDetailsModal} from "./ViewListingDetailsModal";
 
 const ELEMENTS_TO_SHOW = 4;
 
@@ -27,10 +28,16 @@ const initialState : ListingMarketState = {
 }
 export const AllListings: React.FC = () => {
     const [state, setState] = useState(initialState);
+    const [selectedListing, setSelectedListing] = useState<ListingsProps>();
+    const [openModal, setOpenModal] = useState(false);
     const {currentOffset, items} = state
     const {token} = useContext(AuthContext);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
     const {networkStatus} = useNetwork();
+
+    const closeModal = () => {
+        setOpenModal(false);
+    }
 
     async function fetchData(offset: number, howMany: number) {
         const response = await getItemsOffset(token, offset, howMany)
@@ -63,8 +70,10 @@ export const AllListings: React.FC = () => {
             <IonContent fullscreen>
                 {items && (
                     <IonList>
-                        {items.map(({ _id, text, title, price, photoBase64Data}) =>
-                            <Listing key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data}/>)}
+                        {items.map((item) =>
+                            <div onClick={() => {setSelectedListing(item); setOpenModal(true); console.log("asdasd")}}>
+                                <Listing key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            </div>)}
                     </IonList>
                 )}
 
@@ -73,6 +82,8 @@ export const AllListings: React.FC = () => {
                         loadingText="Loading more good doggos...">
                     </IonInfiniteScrollContent>
                 </IonInfiniteScroll>
+
+                <ViewListingDetailsModal handleCloseModal={closeModal} isVisible={openModal} listing={selectedListing}/>
 
             </IonContent>
 

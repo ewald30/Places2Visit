@@ -13,6 +13,7 @@ import {
     IonList, IonItemDivider
 } from "@ionic/react";
 import {Listing} from "./Listing";
+import {ViewListingDetailsModal} from "./ViewListingDetailsModal";
 
 interface SearchListingsState{
     items?: ListingsProps[],
@@ -22,8 +23,14 @@ interface SearchListingsState{
 export const SearchListings: React.FC = () => {
     const [state, setState] = useState<SearchListingsState>({});
     const [searchKey, setKey] = useState('');
+    const [selectedListing, setSelectedListing] = useState<ListingsProps>();
+    const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token} = useContext(AuthContext);
+
+    const closeModal = () => {
+        setOpenModal(false);
+    }
 
     async function fetchData(key: string){
         if (key){
@@ -64,10 +71,15 @@ export const SearchListings: React.FC = () => {
 
                 {items && (
                     <IonList>
-                        {items.map(({ _id, text, title, price, photoBase64Data}) =>
-                            <Listing key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data}/>)}
+                        {items.map((item) =>
+                            <div onClick={() => {setSelectedListing(item); setOpenModal(true); console.log("asdasd")}}>
+                                <Listing key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            </div>)}
                     </IonList>
                 )}
+
+                <ViewListingDetailsModal handleCloseModal={closeModal} isVisible={openModal} listing={selectedListing}/>
+
             </IonContent>
 
         </IonPage>

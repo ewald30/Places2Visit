@@ -1,8 +1,9 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ListingsProps} from "./ListingsProps";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 import {filterItemsPrice, searchItems} from "./ListingsApi";
 import {
+    createAnimation,
     IonContent,
     IonFab,
     IonFabButton,
@@ -13,8 +14,9 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import {checkboxOutline, closeSharp} from "ionicons/icons";
+import {checkboxOutline, closeOutline, closeSharp} from "ionicons/icons";
 import {Listing} from "./Listing";
+import {ViewListingDetailsModal} from "./ViewListingDetailsModal";
 
 interface FilterListings{
     items? : ListingsProps[]
@@ -24,8 +26,18 @@ export const FilterListings: React.FC = () => {
     const [state, setState] = useState<FilterListings>({});
     const [lowerLimit, setLowerLimit] = useState<number>(0);
     const [upperLimit, setUpperLimit] = useState<number>(0);
+    const [selectedListing, setSelectedListing] = useState<ListingsProps>();
+    const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token} = useContext(AuthContext);
+
+    useEffect(submitFilterAnimation, []);
+    useEffect(cancelFilterAnimation, [items]);
+
+    const closeModal = () => {
+        setOpenModal(false);
+    }
+
 
     async function fetchData(){
         if (lowerLimit === 0 && upperLimit === 0){
@@ -33,6 +45,38 @@ export const FilterListings: React.FC = () => {
         } else {
             const response = await filterItemsPrice(token, lowerLimit, upperLimit);
             setState({items: response});
+        }
+    }
+
+    function submitFilterAnimation(){
+        const element = document.querySelector('.submit-filter-btn');
+        if (element){
+            const animation = createAnimation()
+                .addElement(element)
+                .duration(1000)
+                .iterations(1)
+                .easing('cubic-bezier(0.42, 0, .3, 1)')
+                .keyframes([
+                    {offset: 0, transform: 'translate3d(80px, 0, 0)' + 'rotate(180deg)'},
+                    {offset: 1, transform: 'translate3d(0, 0, 0)'}
+                ])
+            animation.play();
+        }
+    }
+
+    function cancelFilterAnimation(){
+        const element = document.querySelector('.cancel-filter-btn');
+        if (element){
+            const animation = createAnimation()
+                .addElement(element)
+                .duration(2000)
+                .iterations(1)
+                .easing('cubic-bezier(0.42, 0, .3, 1)')
+                .keyframes([
+                    {offset: 0, transform: 'translate3d(-80px, 0, 0)' + 'rotate(-180deg)'},
+                    {offset: 1, transform: 'translate3d(0, 0, 0)'}
+                ])
+            animation.play();
         }
     }
 
@@ -56,7 +100,7 @@ export const FilterListings: React.FC = () => {
                     <IonInput value={upperLimit} type={"number"} placeholder={"Enter price"} onIonChange={e => setUpperLimit(parseInt(e.detail.value!))}/>
                 </IonItem>
 
-                <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                <IonFab vertical="bottom" horizontal="end" slot="fixed" className={'submit-filter-btn'}>
                     <IonFabButton onClick={() => {
                         fetchData();
                     }}>
@@ -70,21 +114,26 @@ export const FilterListings: React.FC = () => {
 
 
                 {items && (
-                    <IonFab vertical="bottom" horizontal="start" slot="fixed">
-                        <IonFabButton color={"light"} onClick={() => {
+                    <IonFab vertical="bottom" horizontal="start" slot="fixed" className={'cancel-filter-btn'}>
+                        <IonFabButton color={"danger"} onClick={() => {
                             setState({items: undefined})
                         }}>
-                            <IonIcon icon={closeSharp} />
+                            <IonIcon icon={closeOutline} />
                         </IonFabButton>
                     </IonFab>
                 )}
 
                 {items && (
                     <IonList>
-                        {items.map(({ _id, text, title, price, photoBase64Data}) =>
-                            <Listing key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data}/>)}
+                        {items.map((item) =>
+                            <div onClick={() => {setSelectedListing(item); setOpenModal(true);}}>
+                                <Listing key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            </div>)}
                     </IonList>
                 )}
+
+                <ViewListingDetailsModal handleCloseModal={closeModal} isVisible={openModal} listing={selectedListing}/>
+
             </IonContent>
 
         </IonPage>

@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect} from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
+  createAnimation,
   IonButton,
   IonButtons,
   IonContent,
@@ -13,7 +14,7 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import {add, alert, globe, logOut} from 'ionicons/icons';
+import {add, alert, globe, infinite, logOut} from 'ionicons/icons';
 import MyListing from './MyListing';
 import { getLogger } from '../core';
 import { ListingContext } from './ListingsProvider';
@@ -28,6 +29,8 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
   const {logout} = useContext(AuthContext);
   const {networkStatus} = useNetwork();
 
+  useEffect(addNewListingAnimation, []);
+
   function logOutFunction(){
     log('logging out...');
     logout?.();
@@ -35,6 +38,38 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
       const {Storage} = Plugins;
       await Storage.remove({key: 'token'});
     })()
+  }
+
+  // function addNewListingAnimationBounce(){
+  //   const element = document.querySelector('.add-new-listing-button');
+  //   if (element){
+  //     const animation = createAnimation()
+  //         .addElement(element)
+  //         .duration(1000)
+  //         .iterations(1)
+  //         .easing('cubic-bezier(0.42, 0, .3, 1)')
+  //         .keyframes([
+  //           {offset: 0, transform: 'translate3d(0, -1200px, 0)'},
+  //           {offset: 1, transform: 'translate3d(0, 0px, 0)'}
+  //         ])
+  //     animation.play();
+  //   }
+  // }
+
+  function addNewListingAnimation(){
+    const element = document.querySelector('.add-new-listing-button');
+    if (element){
+      const animation = createAnimation()
+          .addElement(element)
+          .duration(600)
+          .iterations(1)
+          .easing('cubic-bezier(0.42, 0, .3, 1)')
+          .keyframes([
+            {offset: 0, transform: 'translate3d(80px, 0, 0)' + 'rotate(180deg)'},
+            {offset: 1, transform: 'translate3d(0, 0, 0)'}
+          ])
+      animation.play();
+    }
   }
 
   log('render');
@@ -68,10 +103,12 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
               <MyListing key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data} onEdit={id => history.push(`/item/${id}`)} />)}
           </IonList>
         )}
+
         {fetchingError && (
           <div>{fetchingError.message || 'Failed to fetch items'}</div>
         )}
-        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+
+        <IonFab vertical="bottom" horizontal="end" slot="fixed" className={'add-new-listing-button'}>
           <IonFabButton onClick={() => history.push('/item')}>
             <IonIcon icon={add} />
           </IonFabButton>

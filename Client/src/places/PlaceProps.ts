@@ -1,4 +1,4 @@
-export interface ListingsProps {
+export interface PlaceProps {
   _id?: string;
   text: string;
   title: string;

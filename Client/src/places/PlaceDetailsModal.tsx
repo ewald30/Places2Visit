@@ -9,14 +9,13 @@ import {
     IonGrid,
     IonRow, IonCol, IonImg, IonIcon
 } from '@ionic/react';
-import './ViewListingDetailsModalStyle.css';
+import './PlaceDetailsModalStyle.css';
 import {closeSharp, pin, pinOutline} from "ionicons/icons";
 import NO_PREVIEW from '../assets/noPreview3.png'
 
 
-export const ViewListingDetailsModal = (props: { isVisible: any; listing: any; handleCloseModal: any}) => {
-    const {isVisible, listing, handleCloseModal} = props;
-    console.log("lsiting: ", listing)
+export const PlaceDetailsModal = (props: { isVisible: any; place: any; handleCloseModal: any}) => {
+    const {isVisible, place, handleCloseModal} = props;
 
     const enterAnimation = (baseEl: any) => {
         const backdropAnimation = createAnimation()
@@ -45,14 +44,14 @@ export const ViewListingDetailsModal = (props: { isVisible: any; listing: any; h
         <>
             <IonModal isOpen={isVisible} enterAnimation={enterAnimation} leaveAnimation={leaveAnimation}>
                 <div className={'modal-content-container'}>
-                    {(listing && listing.photoBase64Data && listing.photoBase64Data !== '') ?
-                        <IonImg className={'modal-listing-image'} src={listing.photoBase64Data} /> :
-                        <img className={'modal-listing-no-preview'} src={NO_PREVIEW} />
+                    {(place && place.photoBase64Data && place.photoBase64Data !== '') ?
+                        <IonImg className={'modal-place-image'} src={place.photoBase64Data} /> :
+                        <img className={'modal-place-no-preview'} src={NO_PREVIEW} />
                     }
-                    <div className={'modal-listing-details'}>
-                        {listing && <div>Listing Title: {listing.title}</div>}
-                        {listing && <div>Description: {listing.text}</div>}
-                        {listing && <div>Price: {listing.price} lei</div>}
+                    <div className={'modal-place-details'}>
+                        {place && <div>Place Title: {place.title}</div>}
+                        {place && <div>Description: {place.text}</div>}
+                        {place && <div>Price: {place.price} lei</div>}
                     </div>
                     <div className={'modal-buttons'}>
                         <div className={'modal-location-button'}>

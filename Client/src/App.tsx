@@ -2,9 +2,9 @@ import React, {useContext, useEffect} from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ItemEdit, ItemList } from './listing';
+import { ItemEdit, ItemList } from './places';
 
-/* Core CSS required for Ionic listing to work properly */
+/* Core CSS required for Ionic places to work properly */
 import '@ionic/react/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
@@ -22,17 +22,29 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { ListingsProvider } from './listing/ListingsProvider';
-import {useNetwork} from "./listing/useNetwork";
+import { PlacesProvider } from './places/PlacesProvider';
+import {useNetwork} from "./places/useNetwork";
 import {AuthContext, AuthProvider, AuthState} from "./authentication/AuthenticationProvider";
 import {Login} from "./authentication/LoginComponent";
 import {PrivateRoute} from "./authentication/PrivateRoute";
 import {Register} from "./authentication/RegisterComponent";
-import {ellipse, search, cashOutline, personAdd, person, filter, basket, home} from "ionicons/icons";
+import {
+    ellipse,
+    search,
+    cashOutline,
+    personAdd,
+    person,
+    filter,
+    basket,
+    home,
+    map,
+    globe,
+    globeOutline, globeSharp, planet, earth
+} from "ionicons/icons";
 import {login} from "./authentication/api";
-import {AllListings} from "./listing/AllListings";
-import {SearchListings} from "./listing/SearchListings";
-import {FilterListings} from "./listing/FilterListings";
+import {AllPlaces} from "./places/AllPlaces";
+import {SearchPlace} from "./places/SearchPlace";
+import {FilterPlaces} from "./places/FilterPlaces";
 
 
 const App: React.FC = () => {
@@ -48,14 +60,14 @@ const App: React.FC = () => {
                     <AuthProvider>
                         <Route path="/login" component={Login} exact={true}/>
                         <Route path="/register" component={Register} exact={true}/>
-                        <ListingsProvider>
+                        <PlacesProvider>
                             <PrivateRoute path="/my_items" component={ItemList} exact={true}/>
-                            <PrivateRoute path="/all_items" component={AllListings} exact={true}/>
-                            <PrivateRoute path="/search_items" component={SearchListings} exact={true}/>
-                            <PrivateRoute path="/filter_items" component={FilterListings} exact={true}/>
+                            <PrivateRoute path="/all_items" component={AllPlaces} exact={true}/>
+                            <PrivateRoute path="/search_items" component={SearchPlace} exact={true}/>
+                            <PrivateRoute path="/filter_items" component={FilterPlaces} exact={true}/>
                             <PrivateRoute path="/item" component={ItemEdit} exact={true}/>
                             <PrivateRoute path="/item/:id" component={ItemEdit} exact={true}/>
-                        </ListingsProvider>
+                        </PlacesProvider>
                         <Route exact path="/" render={() => <Redirect to="/my_items"/>}/>
                     </AuthProvider>
 
@@ -77,8 +89,8 @@ const App: React.FC = () => {
                     </IonTabButton>
 
                     <IonTabButton tab={"tab2"} href={"/all_items"}>
-                        <IonIcon icon={basket}/>
-                        <IonLabel>Market</IonLabel>
+                        <IonIcon icon={earth}/>
+                        <IonLabel>Explore</IonLabel>
                     </IonTabButton>
 
                     {/*<IonTabButton tab={"tab5"} href={"/login"}>*/}

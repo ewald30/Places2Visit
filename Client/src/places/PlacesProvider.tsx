@@ -1,16 +1,16 @@
 import React, {useCallback, useContext, useEffect, useReducer} from 'react';
 import PropTypes from 'prop-types';
 import { getLogger } from '../core';
-import { ListingsProps } from './ListingsProps';
-import { createItem, getItems, newWebSocket, updateItem } from './ListingsApi';
+import { PlaceProps } from './PlaceProps';
+import { createItem, getItems, newWebSocket, updateItem } from './PlacesApi';
 import {AuthContext} from "../authentication/AuthenticationProvider";
 
-const log = getLogger('ListingsProvider');
+const log = getLogger('PlacesProvider');
 
-type SaveItemFn = (item: ListingsProps) => Promise<any>;
+type SaveItemFn = (item: PlaceProps) => Promise<any>;
 
-export interface ListingState {
-  items?: ListingsProps[],
+export interface PlaceState {
+  items?: PlaceProps[],
   fetching: boolean,
   fetchingError?: Error | null,
   saving: boolean,
@@ -23,7 +23,7 @@ interface ActionProps {
   payload?: any,
 }
 
-const initialState: ListingState = {
+const initialState: PlaceState = {
   fetching: false,
   saving: false,
 };
@@ -35,7 +35,7 @@ const SAVE_ITEM_STARTED = 'SAVE_ITEM_STARTED';
 const SAVE_ITEM_SUCCEEDED = 'SAVE_ITEM_SUCCEEDED';
 const SAVE_ITEM_FAILED = 'SAVE_ITEM_FAILED';
 
-const reducer: (state: ListingState, action: ActionProps) => ListingState =
+const reducer: (state: PlaceState, action: ActionProps) => PlaceState =
   (state, { type, payload }) => {
     switch (type) {
       case FETCH_ITEMS_STARTED:
@@ -63,13 +63,13 @@ const reducer: (state: ListingState, action: ActionProps) => ListingState =
     }
   };
 
-export const ListingContext = React.createContext<ListingState>(initialState);
+export const PlaceContext = React.createContext<PlaceState>(initialState);
 
 interface ItemProviderProps {
   children: PropTypes.ReactNodeLike,
 }
 
-export const ListingsProvider: React.FC<ItemProviderProps> = ({ children }) => {
+export const PlacesProvider: React.FC<ItemProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { items, fetching, fetchingError, saving, savingError } = state;
   const {token} = useContext(AuthContext);
@@ -79,9 +79,9 @@ export const ListingsProvider: React.FC<ItemProviderProps> = ({ children }) => {
   const value = { items, fetching, fetchingError, saving, savingError, saveItem };
   log('returns');
   return (
-    <ListingContext.Provider value={value}>
+    <PlaceContext.Provider value={value}>
       {children}
-    </ListingContext.Provider>
+    </PlaceContext.Provider>
   );
 
   function getItemsEffect() {
@@ -110,7 +110,7 @@ export const ListingsProvider: React.FC<ItemProviderProps> = ({ children }) => {
     }
   }
 
-  async function saveItemCallback(item: ListingsProps) {
+  async function saveItemCallback(item: PlaceProps) {
     try {
       log('saveItem started');
       dispatch({ type: SAVE_ITEM_STARTED });

@@ -15,21 +15,21 @@ import {
   IonToolbar
 } from '@ionic/react';
 import {add, alert, globe, infinite, logOut} from 'ionicons/icons';
-import MyListing from './MyListing';
+import MyPlace from './MyPlace';
 import { getLogger } from '../core';
-import { ListingContext } from './ListingsProvider';
+import { PlaceContext } from './PlacesProvider';
 import {useNetwork} from "./useNetwork";
 import {Plugins} from "@capacitor/core";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 
-const log = getLogger('MyListings');
+const log = getLogger('MyPlaces');
 
-const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
-  const { items, fetching, fetchingError } = useContext(ListingContext);
+const MyPlaces: React.FC<RouteComponentProps> = ({ history }) => {
+  const { items, fetching, fetchingError } = useContext(PlaceContext);
   const {logout} = useContext(AuthContext);
   const {networkStatus} = useNetwork();
 
-  useEffect(addNewListingAnimation, []);
+  useEffect(addNewPlaceAnimation, []);
 
   function logOutFunction(){
     log('logging out...');
@@ -40,8 +40,8 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
     })()
   }
 
-  // function addNewListingAnimationBounce(){
-  //   const element = document.querySelector('.add-new-listing-button');
+  // function addNewPlaceAnimationBounce(){
+  //   const element = document.querySelector('.add-new-Place-button');
   //   if (element){
   //     const animation = createAnimation()
   //         .addElement(element)
@@ -56,8 +56,8 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
   //   }
   // }
 
-  function addNewListingAnimation(){
-    const element = document.querySelector('.add-new-listing-button');
+  function addNewPlaceAnimation(){
+    const element = document.querySelector('.add-new-Place-button');
     if (element){
       const animation = createAnimation()
           .addElement(element)
@@ -100,7 +100,7 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
         {items && (
           <IonList>
             {items.map(({ _id, text, title, price, photoBase64Data}) =>
-              <MyListing key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data} onEdit={id => history.push(`/item/${id}`)} />)}
+              <MyPlace key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data} onEdit={id => history.push(`/item/${id}`)} />)}
           </IonList>
         )}
 
@@ -108,7 +108,7 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
           <div>{fetchingError.message || 'Failed to fetch items'}</div>
         )}
 
-        <IonFab vertical="bottom" horizontal="end" slot="fixed" className={'add-new-listing-button'}>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed" className={'add-new-Place-button'}>
           <IonFabButton onClick={() => history.push('/item')}>
             <IonIcon icon={add} />
           </IonFabButton>
@@ -119,4 +119,4 @@ const MyListings: React.FC<RouteComponentProps> = ({ history }) => {
   );
 };
 
-export default MyListings;
+export default MyPlaces;

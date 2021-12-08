@@ -13,25 +13,25 @@ import {
   IonToolbar
 } from '@ionic/react';
 import { getLogger } from '../core';
-import { ListingContext } from './ListingsProvider';
+import { PlaceContext } from './PlacesProvider';
 import { RouteComponentProps } from 'react-router';
-import { ListingsProps } from './ListingsProps';
+import { PlaceProps } from './PlaceProps';
 import {camera, trash, closeCircle} from "ionicons/icons";
 import {Photo, usePhotoGallery} from "../photos/usePhotoGallery";
 
-const log = getLogger('ListingEdit');
+const log = getLogger('PlaceEdit');
 
 interface ItemEditProps extends RouteComponentProps<{
   id?: string;
 }> {}
 
-const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
+const PlaceEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-  const { items, saving, savingError, saveItem } = useContext(ListingContext);
+  const { items, saving, savingError, saveItem } = useContext(PlaceContext);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0);
-  const [item, setItem] = useState<ListingsProps>();
+  const [item, setItem] = useState<PlaceProps>();
   const [photoBase64Data, setPhoto] = useState('');
   const [photoToDelete, setPhotoToDelete] = useState('');
 
@@ -163,4 +163,4 @@ const ListingEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   );
 };
 
-export default ListingEdit;
+export default PlaceEdit;

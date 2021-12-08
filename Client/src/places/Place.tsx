@@ -1,8 +1,8 @@
 import React from "react";
 import {IonItem, IonLabel} from "@ionic/react";
-import {ListingsProps} from "./ListingsProps";
+import {PlaceProps} from "./PlaceProps";
 
-export const Listing: React.FC<ListingsProps> = ({ _id, text, title, price}) => {
+export const Place: React.FC<PlaceProps> = ({ _id, text, title, price}) => {
     return (
         <IonItem>
             <IonLabel>{title}</IonLabel>

@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
-import {ListingsProps} from "./ListingsProps";
+import {PlaceProps} from "./PlaceProps";
 import {AuthContext} from "../authentication/AuthenticationProvider";
-import {searchItems} from "./ListingsApi";
+import {searchItems} from "./PlacesApi";
 import {
     IonHeader,
     IonPage,
@@ -12,18 +12,18 @@ import {
     IonSearchbar,
     IonList, IonItemDivider
 } from "@ionic/react";
-import {Listing} from "./Listing";
-import {ViewListingDetailsModal} from "./ViewListingDetailsModal";
+import {Place} from "./Place";
+import {PlaceDetailsModal} from "./PlaceDetailsModal";
 
-interface SearchListingsState{
-    items?: ListingsProps[],
+interface SearchPlacesState{
+    items?: PlaceProps[],
 }
 
 
-export const SearchListings: React.FC = () => {
-    const [state, setState] = useState<SearchListingsState>({});
+export const SearchPlace: React.FC = () => {
+    const [state, setState] = useState<SearchPlacesState>({});
     const [searchKey, setKey] = useState('');
-    const [selectedListing, setSelectedListing] = useState<ListingsProps>();
+    const [selectedPlace, setSelectedPlace] = useState<PlaceProps>();
     const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token} = useContext(AuthContext);
@@ -72,13 +72,13 @@ export const SearchListings: React.FC = () => {
                 {items && (
                     <IonList>
                         {items.map((item) =>
-                            <div onClick={() => {setSelectedListing(item); setOpenModal(true); console.log("asdasd")}}>
-                                <Listing key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            <div onClick={() => {setSelectedPlace(item); setOpenModal(true); console.log("asdasd")}}>
+                                <Place key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
                             </div>)}
                     </IonList>
                 )}
 
-                <ViewListingDetailsModal handleCloseModal={closeModal} isVisible={openModal} listing={selectedListing}/>
+                <PlaceDetailsModal handleCloseModal={closeModal} isVisible={openModal} place={selectedPlace}/>
 
             </IonContent>
 

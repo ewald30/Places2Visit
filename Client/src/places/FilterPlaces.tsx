@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
-import {ListingsProps} from "./ListingsProps";
+import {PlaceProps} from "./PlaceProps";
 import {AuthContext} from "../authentication/AuthenticationProvider";
-import {filterItemsPrice, searchItems} from "./ListingsApi";
+import {filterItemsPrice, searchItems} from "./PlacesApi";
 import {
     createAnimation,
     IonContent,
@@ -15,18 +15,18 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {checkboxOutline, closeOutline, closeSharp} from "ionicons/icons";
-import {Listing} from "./Listing";
-import {ViewListingDetailsModal} from "./ViewListingDetailsModal";
+import {Place} from "./Place";
+import {PlaceDetailsModal} from "./PlaceDetailsModal";
 
-interface FilterListings{
-    items? : ListingsProps[]
+interface FilterPlacesInterface {
+    items? : PlaceProps[]
 }
 
-export const FilterListings: React.FC = () => {
-    const [state, setState] = useState<FilterListings>({});
+export const FilterPlaces: React.FC = () => {
+    const [state, setState] = useState<FilterPlacesInterface>({});
     const [lowerLimit, setLowerLimit] = useState<number>(0);
     const [upperLimit, setUpperLimit] = useState<number>(0);
-    const [selectedListing, setSelectedListing] = useState<ListingsProps>();
+    const [selectedPlace, setSelectedPlace] = useState<PlaceProps>();
     const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token} = useContext(AuthContext);
@@ -126,13 +126,13 @@ export const FilterListings: React.FC = () => {
                 {items && (
                     <IonList>
                         {items.map((item) =>
-                            <div onClick={() => {setSelectedListing(item); setOpenModal(true);}}>
-                                <Listing key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
+                            <div onClick={() => {setSelectedPlace(item); setOpenModal(true);}}>
+                                <Place key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data}/>
                             </div>)}
                     </IonList>
                 )}
 
-                <ViewListingDetailsModal handleCloseModal={closeModal} isVisible={openModal} listing={selectedListing}/>
+                <PlaceDetailsModal handleCloseModal={closeModal} isVisible={openModal} place={selectedPlace}/>
 
             </IonContent>
 

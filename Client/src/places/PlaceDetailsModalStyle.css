@@ -7,22 +7,22 @@
     height: 80%;
 }
 
-.modal-listing-image{
+.modal-place-image{
     margin-top: 1.5rem;
     width: 280px;
 
 }
 
-.modal-listing-no-preview{
+.modal-place-no-preview{
     width: 280px;
 }
 
-.modal-listing-details{
+.modal-place-details{
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 }
 
-.modal-listing-details div{
+.modal-place-details div{
     margin-top: .2rem;
 }
 
@@ -41,16 +41,16 @@
         margin-top: 5rem;
     }
 
-    .modal-listing-image{
+    .modal-place-image{
         width: 100%;
     }
 
-    .modal-listing-details{
+    .modal-place-details{
         margin-top: 4rem;
         margin-bottom: 4rem;
     }
 
-    .modal-listing-details div{
+    .modal-place-details div{
         margin-top: .6rem;
     }
 }
@@ -60,16 +60,16 @@
         margin-top: 3rem;
     }
 
-    .modal-listing-image{
+    .modal-place-image{
         width: 100%;
     }
 
-    .modal-listing-details{
+    .modal-place-details{
         margin-top: 4rem;
         margin-bottom: 4rem;
     }
 
-    .modal-listing-details div{
+    .modal-place-details div{
         margin-top: .6rem;
     }
 }
@@ -79,16 +79,16 @@
         margin-top: 1rem;
     }
 
-    .modal-listing-image{
+    .modal-place-image{
         width: 100%;
     }
 
-    .modal-listing-details{
+    .modal-place-details{
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
-    .modal-listing-details div{
+    .modal-place-details div{
         margin-top: .6rem;
     }
 }

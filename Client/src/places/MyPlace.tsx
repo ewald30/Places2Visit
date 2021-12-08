@@ -1,12 +1,12 @@
 import React from 'react';
 import {IonImg, IonItem, IonLabel} from '@ionic/react';
-import {ListingsProps} from "./ListingsProps";
+import {PlaceProps} from "./PlaceProps";
 
-interface ListingsPropsExt extends ListingsProps {
+interface PlacePropsExt extends PlaceProps {
   onEdit: (_id?: string) => void;
 }
 
-const MyListing: React.FC<ListingsPropsExt> = ({ _id, text, title, price, photoBase64Data,onEdit }) => {
+const MyPlace: React.FC<PlacePropsExt> = ({ _id, text, title, price, photoBase64Data,onEdit }) => {
   // @ts-ignore
     return (
     <IonItem onClick={() => onEdit(_id)}>
@@ -18,4 +18,4 @@ const MyListing: React.FC<ListingsPropsExt> = ({ _id, text, title, price, photoB
   );
 };
 
-export default MyListing;
+export default MyPlace;

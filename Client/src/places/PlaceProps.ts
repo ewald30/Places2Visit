@@ -4,4 +4,5 @@ export interface PlaceProps {
   title: string;
   price: number;
   photoBase64Data: string
+  coordinates: {lat: number, lng: number},
 }

@@ -20,9 +20,14 @@
 .modal-place-details{
     margin-top: 1.5rem;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .modal-place-details div{
+    width: 90%;
     margin-top: .2rem;
 }
 

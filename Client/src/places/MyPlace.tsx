@@ -6,7 +6,7 @@ interface PlacePropsExt extends PlaceProps {
   onEdit: (_id?: string) => void;
 }
 
-const MyPlace: React.FC<PlacePropsExt> = ({ _id, text, title, price, photoBase64Data,onEdit }) => {
+const MyPlace: React.FC<PlacePropsExt> = ({ _id, text, title, price, photoBase64Data, coordinates,onEdit }) => {
   // @ts-ignore
     return (
     <IonItem onClick={() => onEdit(_id)}>

@@ -99,8 +99,8 @@ const MyPlaces: React.FC<RouteComponentProps> = ({ history }) => {
         <IonLoading isOpen={fetching} message="Fetching items" />
         {items && (
           <IonList>
-            {items.map(({ _id, text, title, price, photoBase64Data}) =>
-              <MyPlace key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data} onEdit={id => history.push(`/item/${id}`)} />)}
+            {items.map(({ _id, text, title, price, photoBase64Data, coordinates}) =>
+              <MyPlace key={_id} _id={_id} text={text} title={title} price={price} photoBase64Data={photoBase64Data} coordinates={coordinates} onEdit={id => history.push(`/item/${id}`)} />)}
           </IonList>
         )}
 

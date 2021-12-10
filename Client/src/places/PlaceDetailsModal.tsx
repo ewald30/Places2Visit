@@ -3,19 +3,21 @@ import {
     createAnimation,
     IonModal,
     IonButton,
-    IonContent,
-    IonCardHeader,
-    IonCardTitle,
-    IonGrid,
-    IonRow, IonCol, IonImg, IonIcon
+    IonImg,
 } from '@ionic/react';
 import './PlaceDetailsModalStyle.css';
 import {closeSharp, pin, pinOutline} from "ionicons/icons";
 import NO_PREVIEW from '../assets/noPreview3.png'
+import {LocationModal} from "../map/LocationModal";
 
 
 export const PlaceDetailsModal = (props: { isVisible: any; place: any; handleCloseModal: any}) => {
     const {isVisible, place, handleCloseModal} = props;
+    const [openModal, setOpenModal] = useState(false);
+
+    const closeLocationModal = () => {
+        setOpenModal(false);
+    }
 
     const enterAnimation = (baseEl: any) => {
         const backdropAnimation = createAnimation()
@@ -40,8 +42,9 @@ export const PlaceDetailsModal = (props: { isVisible: any; place: any; handleClo
         return enterAnimation(baseEl).direction('reverse');
     }
 
+
     return (
-        <>
+
             <IonModal isOpen={isVisible} enterAnimation={enterAnimation} leaveAnimation={leaveAnimation}>
                 <div className={'modal-content-container'}>
                     {(place && place.photoBase64Data && place.photoBase64Data !== '') ?
@@ -50,12 +53,12 @@ export const PlaceDetailsModal = (props: { isVisible: any; place: any; handleClo
                     }
                     <div className={'modal-place-details'}>
                         {place && <div>Place Title: {place.title}</div>}
-                        {place && <div>Description: {place.text}</div>}
-                        {place && <div>Price: {place.price} lei</div>}
+                        {place && <div>Description: <br/> {place.text}</div>}
+                        {place && <div>Ticket price: {place.price} lei</div>}
                     </div>
                     <div className={'modal-buttons'}>
                         <div className={'modal-location-button'}>
-                            <IonButton className={'modal-button'} >
+                            <IonButton className={'modal-button'} onClick={() => {setOpenModal(true)}}>
                                 View location
                             </IonButton>
                         </div>
@@ -66,7 +69,9 @@ export const PlaceDetailsModal = (props: { isVisible: any; place: any; handleClo
                         </div>
                     </div>
                 </div>
+
+                <LocationModal show={openModal} place={place} handleCloseModal={closeLocationModal}/>
+
             </IonModal>
-        </>
     );
 };

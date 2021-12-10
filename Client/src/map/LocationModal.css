@@ -1,0 +1,31 @@
+.modal-location-close-button{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.location-button{
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.no-location-icon{
+    font-size: 100px;
+}
+
+.modal-location-content-container-unavailable{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 60%;
+}
+
+.no-location-container{
+    margin-top: 10rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    height: 30%;
+    font-size: 1.4rem;
+}

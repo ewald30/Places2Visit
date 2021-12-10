@@ -15,10 +15,9 @@ export class ListingStore {
   
   async insert(listing) {
     let listingText = listing.text;
-    let listingPrice = listing.price;
     let listingTitle = listing.title;
-    if (!listingTitle || !listingPrice || !listingText) { // validation
-      throw new Error('Missing text property')
+    if (!listingTitle || !listingText) { // validation
+      throw new Error('Missing property')
     }
     return this.store.insert(listing);
   };

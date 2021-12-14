@@ -10,7 +10,7 @@ import {
     IonTitle,
     IonContent,
     IonSearchbar,
-    IonList, IonItemDivider
+    IonList, IonItemDivider, IonRow, IonCol
 } from "@ionic/react";
 import {Place} from "./Place";
 import {PlaceDetailsModal} from "./PlaceDetailsModal";
@@ -70,12 +70,12 @@ export const SearchPlace: React.FC = () => {
                 )}
 
                 {items && (
-                    <IonList>
+                    <IonRow>
                         {items.map((item) =>
-                            <div onClick={() => {setSelectedPlace(item); setOpenModal(true); console.log("asdasd")}}>
+                            <IonCol size-xs="12" size-sm="6" size-md="4" size-xl="3" onClick={() => {setSelectedPlace(item); setOpenModal(true);}}>
                                 <Place key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data} coordinates={item.coordinates}/>
-                            </div>)}
-                    </IonList>
+                            </IonCol>)}
+                    </IonRow>
                 )}
 
                 <PlaceDetailsModal handleCloseModal={closeModal} isVisible={openModal} place={selectedPlace}/>

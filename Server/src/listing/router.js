@@ -98,6 +98,7 @@ router.put('/:id', async (ctx) => {
     const updatedCount = await listingStore.update({ _id: id }, listing);
     if (updatedCount === 1) {
       response.body = listing;
+      console.log("LISTING: ", listing)
       response.status = 200; // ok
       broadcast(userId, { type: 'updated', payload: listing });
     } else {

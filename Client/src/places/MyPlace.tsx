@@ -1,5 +1,5 @@
 import React from 'react';
-import {IonImg, IonItem, IonLabel} from '@ionic/react';
+import {IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonImg, IonItem, IonLabel} from '@ionic/react';
 import {PlaceProps} from "./PlaceProps";
 
 interface PlacePropsExt extends PlaceProps {
@@ -9,12 +9,25 @@ interface PlacePropsExt extends PlaceProps {
 const MyPlace: React.FC<PlacePropsExt> = ({ _id, text, title, price, photoBase64Data, coordinates,onEdit }) => {
   // @ts-ignore
     return (
-    <IonItem onClick={() => onEdit(_id)}>
-        <IonLabel>{title}</IonLabel>
-        <IonLabel>{text}</IonLabel>
-        <IonLabel>{price}</IonLabel>
-        {photoBase64Data && <IonImg src={photoBase64Data}/>}
-    </IonItem>
+    <IonCard onClick={() => onEdit(_id)}>
+
+        {photoBase64Data &&
+            <IonCardHeader>
+                <IonImg src={photoBase64Data}/>
+            </IonCardHeader>
+        }
+
+        <IonCardContent>
+            <IonCardTitle>
+                <IonLabel>{title}</IonLabel>
+            </IonCardTitle>
+
+            <IonLabel>Description: {text.length > 200? text.substr(0, 150) + "..." : text}</IonLabel>
+
+            <br/>
+            <IonLabel>Ticket price {price}</IonLabel>
+        </IonCardContent>
+    </IonCard>
   );
 };
 

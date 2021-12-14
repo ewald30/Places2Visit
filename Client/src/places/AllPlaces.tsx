@@ -9,7 +9,7 @@ import {
     IonTitle,
     IonContent,
     IonList,
-    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon
+    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon, IonRow, IonCol
 } from "@ionic/react";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 import {Place} from "./Place";
@@ -68,12 +68,12 @@ export const AllPlaces: React.FC = () => {
 
             <IonContent fullscreen>
                 {items && (
-                    <IonList>
+                    <IonRow>
                         {items.map((item) =>
-                            <div onClick={() => {setSelectedPlace(item); setOpenModal(true);}}>
+                            <IonCol size-xs="12" size-sm="6" size-md="4" size-xl="3" onClick={() => {setSelectedPlace(item); setOpenModal(true);}}>
                                 <Place key={item._id} _id={item._id} text={item.text} title={item.title} price={item.price} photoBase64Data={item.photoBase64Data} coordinates={item.coordinates}/>
-                            </div>)}
-                    </IonList>
+                            </IonCol>)}
+                    </IonRow>
                 )}
 
                 <IonInfiniteScroll threshold="100px" disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => getNext(e)}>

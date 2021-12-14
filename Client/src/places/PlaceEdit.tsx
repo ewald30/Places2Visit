@@ -65,13 +65,13 @@ const PlaceEdit: React.FC<ItemEditProps> = ({ history, match }) => {
   useEffect(addPhotoButtonAnimation, []);
 
   const handleSave = () => {
+    console.log("item", item)
     const editedItem = item ? { ...item, text, title, price, photoBase64Data, coordinates } : { text, title, price, photoBase64Data, coordinates };
     saveItem && saveItem(editedItem).then(() => history.push('/my_items'));
   };
 
   const handleTakePhoto = async () => {
     const takenPhoto = await takePhoto()
-    debugger;
     setPhoto(takenPhoto);
   }
 

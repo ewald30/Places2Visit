@@ -25,11 +25,11 @@ export const Map =
     )(props => (
         <GoogleMap
             defaultZoom={8}
-            defaultCenter={{ lat: props.lat, lng: props.lng }}
+            defaultCenter={{ lat: props.lat!, lng: props.lng! }}
             onClick={props.onMapClick}
         >
             <Marker
-                position={{ lat: props.lat, lng: props.lng }}
+                position={{ lat: props.lat!, lng: props.lng! }}
                 onClick={props.onMarkerClick}
             />
         </GoogleMap>

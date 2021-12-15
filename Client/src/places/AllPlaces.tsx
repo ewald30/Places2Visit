@@ -9,7 +9,7 @@ import {
     IonTitle,
     IonContent,
     IonList,
-    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon, IonRow, IonCol, IonButtons, IonButton
+    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon, IonRow, IonCol, IonButtons, IonButton, IonAlert
 } from "@ionic/react";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 import {Place} from "./Place";
@@ -34,6 +34,8 @@ export const AllPlaces: React.FC<RouteComponentProps> = ({history}) => {
     const [openModal, setOpenModal] = useState(false);
     const {currentOffset, items} = state
     const {token, logout} = useContext(AuthContext);
+    const {networkStatus} = useNetwork();
+
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
 
     const closeModal = () => {
@@ -71,7 +73,6 @@ export const AllPlaces: React.FC<RouteComponentProps> = ({history}) => {
     return(
         <IonPage>
             <IonHeader>
-
                 <IonToolbar>
                     <IonTitle color={"primary"}>Explore locations</IonTitle>
 
@@ -83,10 +84,23 @@ export const AllPlaces: React.FC<RouteComponentProps> = ({history}) => {
                         </IonButton>
                     </IonButtons>
 
+                    <IonButtons slot="start" style={{'margin-left':'10px'}}>
+                        {!networkStatus.connected && (
+                            <IonIcon icon={alert}/>
+                        )}
+                    </IonButtons>
+
                 </IonToolbar>
             </IonHeader>
-
             <IonContent fullscreen>
+
+                <IonAlert
+                    isOpen={!networkStatus.connected}
+                    header={'Offline'}
+                    message={'No internet connection.'}
+                    buttons={['Dismiss']}
+                />
+
                 {items && (
                     <IonRow>
                         {items.map((item) =>
@@ -105,7 +119,6 @@ export const AllPlaces: React.FC<RouteComponentProps> = ({history}) => {
                 <PlaceDetailsModal handleCloseModal={closeModal} isVisible={openModal} place={selectedPlace}/>
 
             </IonContent>
-
         </IonPage>
     )
 

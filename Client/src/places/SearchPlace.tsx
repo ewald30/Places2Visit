@@ -10,13 +10,14 @@ import {
     IonTitle,
     IonContent,
     IonSearchbar,
-    IonList, IonItemDivider, IonRow, IonCol, IonButtons, IonButton, IonIcon
+    IonList, IonItemDivider, IonRow, IonCol, IonButtons, IonButton, IonIcon, IonAlert
 } from "@ionic/react";
 import {Place} from "./Place";
 import {PlaceDetailsModal} from "./PlaceDetailsModal";
 import {RouteComponentProps} from "react-router";
 import {Plugins} from "@capacitor/core";
-import {logOut} from "ionicons/icons";
+import {alert, logOut} from "ionicons/icons";
+import {useNetwork} from "./useNetwork";
 
 interface SearchPlacesState{
     items?: PlaceProps[],
@@ -30,6 +31,8 @@ export const SearchPlace: React.FC<RouteComponentProps> = ({history}) => {
     const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token, logout} = useContext(AuthContext);
+    const {networkStatus} = useNetwork();
+
 
     const closeModal = () => {
         setOpenModal(false);
@@ -75,10 +78,23 @@ export const SearchPlace: React.FC<RouteComponentProps> = ({history}) => {
                         </IonButton>
                     </IonButtons>
 
+                    <IonButtons slot="start" style={{'margin-left':'10px'}}>
+                        {!networkStatus.connected && (
+                            <IonIcon icon={alert}/>
+                        )}
+                    </IonButtons>
+
                 </IonToolbar>
             </IonHeader>
-
             <IonContent fullscreen>
+
+                <IonAlert
+                    isOpen={!networkStatus.connected}
+                    header={'Offline'}
+                    message={'No internet connection.'}
+                    buttons={['Dismiss']}
+                />
+
                 <IonSearchbar
                     value={searchKey}
                     onIonChange={e => handleSearch(e.detail.value||'')}

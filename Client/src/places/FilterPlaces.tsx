@@ -3,7 +3,7 @@ import {PlaceProps} from "./PlaceProps";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 import {filterItemsPrice, searchItems} from "./PlacesApi";
 import {
-    createAnimation, IonButton, IonButtons, IonCol,
+    createAnimation, IonAlert, IonButton, IonButtons, IonCol,
     IonContent,
     IonFab,
     IonFabButton,
@@ -14,11 +14,12 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import {checkboxOutline, closeOutline, closeSharp, logOut} from "ionicons/icons";
+import {alert, checkboxOutline, closeOutline, closeSharp, logOut} from "ionicons/icons";
 import {Place} from "./Place";
 import {PlaceDetailsModal} from "./PlaceDetailsModal";
 import {Plugins} from "@capacitor/core";
 import {RouteComponentProps} from "react-router";
+import {useNetwork} from "./useNetwork";
 
 interface FilterPlacesInterface {
     items? : PlaceProps[]
@@ -32,6 +33,8 @@ export const FilterPlaces: React.FC<RouteComponentProps> = ({history}) => {
     const [openModal, setOpenModal] = useState(false);
     const {items} = state
     const {token, logout} = useContext(AuthContext);
+    const {networkStatus} = useNetwork();
+
 
     useEffect(submitFilterAnimation, []);
     useEffect(cancelFilterAnimation, [items]);
@@ -103,10 +106,22 @@ export const FilterPlaces: React.FC<RouteComponentProps> = ({history}) => {
                         </IonButton>
                     </IonButtons>
 
+                    <IonButtons slot="start" style={{'margin-left':'10px'}}>
+                        {!networkStatus.connected && (
+                            <IonIcon icon={alert}/>
+                        )}
+                    </IonButtons>
+
                 </IonToolbar>
             </IonHeader>
-
             <IonContent fullscreen>
+
+                <IonAlert
+                    isOpen={!networkStatus.connected}
+                    header={'Offline'}
+                    message={'No internet connection.'}
+                    buttons={['Dismiss']}
+                />
 
                 <IonItem>
                     <IonLabel>Lower limit: </IonLabel>

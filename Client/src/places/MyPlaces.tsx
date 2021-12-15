@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
-  createAnimation,
+  createAnimation, IonAlert,
   IonButton,
   IonButtons, IonCol,
   IonContent,
@@ -79,15 +79,19 @@ const MyPlaces: React.FC<RouteComponentProps> = ({ history }) => {
             {!networkStatus.connected && (
                 <IonIcon icon={alert}/>
             )}
-
-            {networkStatus.connected && (
-                <IonIcon icon={globe}/>
-            )}
           </IonButtons>
 
         </IonToolbar>
       </IonHeader>
       <IonContent>
+
+        <IonAlert
+            isOpen={!networkStatus.connected}
+            header={'Offline'}
+            message={'No internet connection.'}
+            buttons={['Dismiss']}
+        />
+
         <IonLoading isOpen={fetching} message="Fetching items" />
 
          {items && (

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs} from '@ionic/react';
+import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs, IonAlert} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ItemEdit, ItemList } from './places';
 
@@ -92,8 +92,6 @@ const App: React.FC = () => {
                         <IonIcon icon={earth}/>
                         <IonLabel>Explore</IonLabel>
                     </IonTabButton>
-
-
 
                 </IonTabBar>
             </IonTabs>

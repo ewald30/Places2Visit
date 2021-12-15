@@ -14,7 +14,7 @@ import {
 } from "@ionic/react";
 import {AuthContext} from "./AuthenticationProvider";
 import {Redirect} from "react-router-dom";
-import { Plugins } from '@capacitor/core';
+import LOGO from '../assets/default.svg'
 
 
 const logger = getLogger('Login component')
@@ -44,14 +44,14 @@ export const Login: React.FC<RouteComponentProps> = ({history}) => {
                 <IonToolbar>
                     <IonTitle color={"primary"}>Login</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={() => {
+                        <IonButton color={'medium'} onClick={() => {
                             history.push('/register')}}>
                             Register
                         </IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonGrid>
+            <IonGrid fixed={true}>
                 <IonRow>
                     <IonCol/>
                 </IonRow>
@@ -60,7 +60,10 @@ export const Login: React.FC<RouteComponentProps> = ({history}) => {
                 </IonRow>
 
                 <IonRow>
-                    <IonCol  size={"12"} className="ion-align-items-center">
+                    <IonCol size={"3"}/>
+                    <IonCol  size={"6"} className="ion-align-items-center">
+                            <img src={LOGO}/>
+
                             <IonInput placeholder="Username" value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})}/>
                             <IonInput type={"password"} placeholder="Password" value={password} onIonChange={e => setState({...state, password: e.detail.value || ''})}/>
                             <IonLoading isOpen={isAuthenticating}/>

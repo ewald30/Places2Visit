@@ -14,6 +14,7 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
+import LOGO from "../assets/default.svg";
 
 
 const logger = getLogger('Login component')
@@ -51,7 +52,7 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
                 <IonToolbar>
                     <IonTitle color={"primary"}>Register</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={() => {
+                        <IonButton color={'medium'} onClick={() => {
                             history.push('/login')}}>
                             Log in
                         </IonButton>
@@ -59,7 +60,7 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonGrid>
+            <IonGrid fixed={true}>
                 <IonRow>
                     <IonCol/>
                 </IonRow>
@@ -68,9 +69,11 @@ export const Register: React.FC<RouteComponentProps> = ({history}) => {
                 </IonRow>
 
                 <IonRow>
-                    <IonCol
-                        size={"12"} className="ion-align-items-center">
-                        <IonInput placeholder={"Username"} value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})} />
+                    <IonCol size={"3"}/>
+                    <IonCol size={"6"} className="ion-align-items-center">
+                        <img src={LOGO}/>
+
+                        <IonInput placeholder="Username" value={username} onIonChange={e => setState({...state, username: e.detail.value || ''})}/>
                         <IonInput type={"password"} placeholder={"Password"} value={password} onIonChange={e => setState({...state, password: e.detail.value || ''})} />
                         <IonInput type={"password"} placeholder={"Confirm Password"} value={password2} onIonChange={e => setState({...state, password2: e.detail.value || ''})} />
 

@@ -9,13 +9,15 @@ import {
     IonTitle,
     IonContent,
     IonList,
-    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon, IonRow, IonCol
+    IonInfiniteScroll, IonInfiniteScrollContent, IonIcon, IonRow, IonCol, IonButtons, IonButton
 } from "@ionic/react";
 import {AuthContext} from "../authentication/AuthenticationProvider";
 import {Place} from "./Place";
 import {useNetwork} from "./useNetwork";
-import {alert} from "ionicons/icons";
+import {alert, logOut} from "ionicons/icons";
 import {PlaceDetailsModal} from "./PlaceDetailsModal";
+import {Plugins} from "@capacitor/core";
+import {RouteComponentProps} from "react-router";
 
 const ELEMENTS_TO_SHOW = 4;
 
@@ -26,16 +28,24 @@ interface PlaceMarketState{
 const initialState : PlaceMarketState = {
     currentOffset: 0
 }
-export const AllPlaces: React.FC = () => {
+export const AllPlaces: React.FC<RouteComponentProps> = ({history}) => {
     const [state, setState] = useState(initialState);
     const [selectedPlace, setSelectedPlace] = useState<PlaceProps>();
     const [openModal, setOpenModal] = useState(false);
     const {currentOffset, items} = state
-    const {token} = useContext(AuthContext);
+    const {token, logout} = useContext(AuthContext);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
 
     const closeModal = () => {
         setOpenModal(false);
+    }
+
+    function logOutFunction(){
+        logout?.();
+        (async () => {
+            const {Storage} = Plugins;
+            await Storage.remove({key: 'token'});
+        })()
     }
 
     async function fetchData(offset: number, howMany: number) {
@@ -61,8 +71,18 @@ export const AllPlaces: React.FC = () => {
     return(
         <IonPage>
             <IonHeader>
+
                 <IonToolbar>
                     <IonTitle color={"primary"}>Explore locations</IonTitle>
+
+                    <IonButtons slot="end">
+                        <IonButton color="danger" onClick={() => {
+                            logOutFunction();
+                            history.push('/login')}}>
+                            <IonIcon icon={logOut}/>
+                        </IonButton>
+                    </IonButtons>
+
                 </IonToolbar>
             </IonHeader>
 

@@ -93,15 +93,6 @@ const App: React.FC = () => {
                         <IonLabel>Explore</IonLabel>
                     </IonTabButton>
 
-                    {/*<IonTabButton tab={"tab5"} href={"/login"}>*/}
-                    {/*    <IonIcon icon={person}/>*/}
-                    {/*    <IonLabel>Log in</IonLabel>*/}
-                    {/*</IonTabButton>*/}
-
-                    {/*<IonTabButton tab={"tab6"} href={"/register"}>*/}
-                    {/*    <IonIcon icon={personAdd}/>*/}
-                    {/*    <IonLabel>Sign up</IonLabel>*/}
-                    {/*</IonTabButton>*/}
 
 
                 </IonTabBar>

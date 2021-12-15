@@ -10,26 +10,37 @@ import {
     IonTitle,
     IonContent,
     IonSearchbar,
-    IonList, IonItemDivider, IonRow, IonCol
+    IonList, IonItemDivider, IonRow, IonCol, IonButtons, IonButton, IonIcon
 } from "@ionic/react";
 import {Place} from "./Place";
 import {PlaceDetailsModal} from "./PlaceDetailsModal";
+import {RouteComponentProps} from "react-router";
+import {Plugins} from "@capacitor/core";
+import {logOut} from "ionicons/icons";
 
 interface SearchPlacesState{
     items?: PlaceProps[],
 }
 
 
-export const SearchPlace: React.FC = () => {
+export const SearchPlace: React.FC<RouteComponentProps> = ({history}) => {
     const [state, setState] = useState<SearchPlacesState>({});
     const [searchKey, setKey] = useState('');
     const [selectedPlace, setSelectedPlace] = useState<PlaceProps>();
     const [openModal, setOpenModal] = useState(false);
     const {items} = state
-    const {token} = useContext(AuthContext);
+    const {token, logout} = useContext(AuthContext);
 
     const closeModal = () => {
         setOpenModal(false);
+    }
+
+    function logOutFunction(){
+        logout?.();
+        (async () => {
+            const {Storage} = Plugins;
+            await Storage.remove({key: 'token'});
+        })()
     }
 
     async function fetchData(key: string){
@@ -55,6 +66,15 @@ export const SearchPlace: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle color={"primary"}>Search</IonTitle>
+
+                    <IonButtons slot="end">
+                        <IonButton color="danger" onClick={() => {
+                            logOutFunction();
+                            history.push('/login')}}>
+                            <IonIcon icon={logOut}/>
+                        </IonButton>
+                    </IonButtons>
+
                 </IonToolbar>
             </IonHeader>
 

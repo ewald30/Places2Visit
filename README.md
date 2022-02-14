@@ -19,7 +19,7 @@ Simple web application that you can use to browse places you should visit posted
 - React Google Maps 9.4
 
 ## Install
-In order to run the application, the node modules have to be installed for both the server and the client. To do that, in a terminal window navigate to `(location of the project)/Client` and run `npm install`. Do the same for the **Server** project, and check that all packages are installed correctly (there should be no errors during this step).
+In order to run the application, the node modules have to be installed for both the server and the client. To do that, in a terminal window navigate to `cd ../Places2Visit/Client` and `cd../Places2Visit/Server` then run `npm install` on both projects. Check that all packages are installed correctly (there should be no errors).
 
 ## Run the app
 Nabigate again to both the location of the **Client** and the **Server**. Using `npm start` you can back-end the server and after that you can start the front-end. When starting the front-end project you will be promted to run the client on port *3001* insted of *3000* since *3000* is taken by the server, just type **y** in the console.

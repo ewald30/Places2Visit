@@ -32,6 +32,7 @@ The front-end application is responsive but was build with running mainly on mob
 ## Description
 When the application starts, the user is promted to authenticate to a previously created account or create a new one. For demonstration purposes you can use the account:
 >username: ewald
+
 >password: admin
 
 The application uses **JWT (Java Web Token)** to authenticate users and it stores the generating token in the Local Storage so only one authentication is needed, after the token is stored and until the token will expire the useer can close the tab, even the browser and the next time they will visit the application they will be automatically authenticated. 

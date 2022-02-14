@@ -25,7 +25,7 @@ In order to run the application, the node modules have to be installed for both 
 Nabigate again to both the location of the **Client** and the **Server**. Using `npm start` you can back-end the server and after that you can start the front-end. When starting the front-end project you will be promted to run the client on port *3001* insted of *3000* since *3000* is taken by the server, just type **y** in the console.
 
 ## General Information
-The application is structured in two separate projects, one for front-end and one for back-end. Both of them have to be running, You can find in the [Install](#install) section how to install the app and on the [Run the app](#run-the-app)section how to run it.
+The application is structured in two separate projects, one for front-end and one for back-end. Both of them have to be running, You can find in the [Install](#install) section how to install the app and on the [Run the app](#run-the-app) section how to run it.
 
 The front-end application is responsive but was build with running mainly on mobile devices, some elements don't scale that well to desktop resolutions. Using the browser devtools I suggest trying different resolutions to see how the app adapts to them, but in my opinion it looks the best on the following devices: Iphone 8, Ipad, Anything with 1920 x 1080p resolution. These are the screens that I dedicated most of the time in order to make the app look good on them, for other screen sizes there might be some issues, but that wasn't the project's goal. Also the application features a dark/light theme and I strongly recoomend trying both, this can be done in Chrome by navigating to **Rendering** tab and setting **Emulate CSS media feature prefers-color-scheme** to any of the listed options.
 

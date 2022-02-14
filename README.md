@@ -1,4 +1,4 @@
-# IonicMobile
+# Places2Visit
 
 ## Table of contents
 * [Introduction](#introduction)
